@@ -1,0 +1,1553 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Suvarna Finance — Staff Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #FAF6ED;
+      --surface: #FFFFFF;
+      --surface-alt: #F3EAD6;
+      --surface-sunk: #EFE4CC;
+      --ink: #241C12;
+      --ink-soft: #5B4E3A;
+      --ink-faint: #8A7A5E;
+      --gold: #B8860B;
+      --gold-light: #E7C874;
+      --gold-pale: #F6E8BE;
+      --gold-deep: #8A6410;
+      --navy: #1E3A3F;
+      --navy-light: #2E545C;
+      --maroon: #6E2A34;
+      --maroon-light: #8C3D48;
+      --green: #3F7A52;
+      --green-bg: #E7F2EA;
+      --amber: #B8862E;
+      --amber-bg: #FBF0DA;
+      --red: #A63A3A;
+      --red-bg: #F7E9E9;
+      --line: #E7DCC4;
+      --line-soft: #F0E7D2;
+      --shadow: 0 1px 2px rgba(36, 28, 18, 0.04), 0 8px 24px -12px rgba(36, 28, 18, 0.18);
+      --shadow-lg: 0 4px 8px rgba(36, 28, 18, 0.05), 0 24px 48px -16px rgba(36, 28, 18, 0.28);
+      --radius: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Manrope', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    .display {
+      font-family: 'Fraunces', serif;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      margin: 0;
+      color: var(--ink);
+    }
+
+    p {
+      margin: 0;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    input,
+    select,
+    textarea {
+      font-family: inherit;
+    }
+
+    .mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .view {
+      display: none;
+    }
+
+    .view.active {
+      display: block;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--gold-deep);
+      outline-offset: 2px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 11px 20px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      font-weight: 700;
+      font-size: 13.5px;
+      transition: .15s;
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+    }
+
+    .btn-gold {
+      background: linear-gradient(180deg, #C79A1E, var(--gold-deep));
+      color: #fff;
+    }
+
+    .btn-navy {
+      background: var(--navy);
+      color: #fff;
+    }
+
+    .btn-navy:hover {
+      background: var(--navy-light);
+    }
+
+    .btn-green {
+      background: var(--green);
+      color: #fff;
+    }
+
+    .btn-red {
+      background: var(--red);
+      color: #fff;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border-color: var(--line);
+      color: var(--ink);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--gold);
+      background: var(--surface-alt);
+    }
+
+    .btn-sm {
+      padding: 7px 14px;
+      font-size: 12.5px;
+    }
+
+    .btn-block {
+      width: 100%;
+    }
+
+    .btn[disabled] {
+      opacity: .45;
+      cursor: not-allowed;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 11px;
+      border-radius: 999px;
+      font-size: 11.5px;
+      font-weight: 700;
+    }
+
+    .pill-green {
+      background: var(--green-bg);
+      color: var(--green);
+    }
+
+    .pill-amber {
+      background: var(--amber-bg);
+      color: var(--amber);
+    }
+
+    .pill-red {
+      background: var(--red-bg);
+      color: var(--red);
+    }
+
+    .pill-gold {
+      background: var(--gold-pale);
+      color: var(--gold-deep);
+    }
+
+    .pill-navy {
+      background: rgba(30, 58, 63, .1);
+      color: var(--navy);
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line-soft);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .hr {
+      height: 1px;
+      background: var(--line-soft);
+      border: 0;
+    }
+
+    .field {
+      margin-bottom: 14px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--ink-soft);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      padding: 11px 13px;
+      border-radius: 9px;
+      border: 1px solid var(--line);
+      background: #fff;
+      font-size: 14px;
+      color: var(--ink);
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--gold);
+      outline: none;
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .field-row3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+    }
+
+    /* ---- LOGIN ---- */
+    #staffLogin {
+      min-height: 100vh;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: var(--navy);
+      padding: 24px;
+    }
+
+    #staffLogin.active {
+      display: flex;
+    }
+
+    .staff-login-card {
+      width: 100%;
+      max-width: 400px;
+      background: #fff;
+      border-radius: 18px;
+      padding: 40px;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .staff-login-card .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Fraunces', serif;
+      font-weight: 700;
+      font-size: 19px;
+      margin-bottom: 6px;
+    }
+
+    .staff-login-card .brand .mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(145deg, var(--gold-light), var(--gold-deep));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .staff-login-card .tag {
+      font-size: 12px;
+      color: var(--ink-faint);
+      margin-bottom: 28px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      font-weight: 700;
+    }
+
+    .role-pick {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .role-opt {
+      flex: 1;
+      padding: 14px;
+      border-radius: 10px;
+      border: 2px solid var(--line);
+      text-align: center;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--ink-soft);
+    }
+
+    .role-opt.sel {
+      border-color: var(--gold);
+      background: var(--gold-pale);
+      color: var(--gold-deep);
+    }
+
+    .role-opt .ric {
+      font-size: 20px;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    /* ---- STAFF PORTAL SHELL ---- */
+    #staffPortal {
+      display: none;
+    }
+
+    #staffPortal.active {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    .ssidebar {
+      width: 246px;
+      flex-shrink: 0;
+      background: var(--navy);
+      color: #fff;
+      padding: 22px 14px;
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .ssidebar .brand {
+      color: #fff;
+      padding: 0 8px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Fraunces', serif;
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .ssidebar .brand .mark {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: linear-gradient(145deg, var(--gold-light), var(--gold-deep));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .staff-badge {
+      margin: 0 8px 22px;
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, .5);
+    }
+
+    .snav {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex: 1;
+    }
+
+    .slink {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 10px 13px;
+      border-radius: 9px;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, .65);
+      position: relative;
+    }
+
+    .slink .ic {
+      width: 17px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .slink:hover {
+      background: rgba(255, 255, 255, .06);
+      color: #fff;
+    }
+
+    .slink.active {
+      background: linear-gradient(90deg, rgba(184, 134, 11, .4), rgba(184, 134, 11, .08));
+      color: var(--gold-light);
+    }
+
+    .slink .badge-count {
+      margin-left: auto;
+      background: var(--maroon);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 999px;
+    }
+
+    .sfoot {
+      border-top: 1px solid rgba(255, 255, 255, .12);
+      padding-top: 14px;
+      margin-top: 10px;
+    }
+
+    .suser {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 8px;
+    }
+
+    .savatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--gold-deep);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 12px;
+    }
+
+    .suser .nm {
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .suser .rl {
+      font-size: 11px;
+      color: rgba(255, 255, 255, .5);
+    }
+
+    .slogout {
+      display: block;
+      width: 100%;
+      background: none;
+      border: 0;
+      color: rgba(255, 255, 255, .5);
+      font-size: 12px;
+      margin-top: 8px;
+      padding: 6px 8px;
+      font-weight: 600;
+      text-align: left;
+    }
+
+    .slogout:hover {
+      color: #fff;
+    }
+
+    .smain {
+      flex: 1;
+      min-width: 0;
+      padding: 30px 36px 70px;
+    }
+
+    .smain-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .smain-head h1 {
+      font-size: 24px;
+    }
+
+    .smain-head .sub {
+      color: var(--ink-soft);
+      font-size: 13.5px;
+      margin-top: 5px;
+    }
+
+    .ssec {
+      display: none;
+    }
+
+    .ssec.active {
+      display: block;
+    }
+
+    /* Dashboard */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .stat-box {
+      padding: 18px;
+    }
+
+    .stat-box .lbl {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--ink-faint);
+      font-weight: 700;
+    }
+
+    .stat-box .val {
+      font-family: 'Fraunces', serif;
+      font-size: 24px;
+      margin-top: 8px;
+    }
+
+    .stat-box.alert .val {
+      color: var(--maroon);
+    }
+
+    /* Table */
+    .stbl {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .stbl th {
+      text-align: left;
+      padding: 11px 14px;
+      background: var(--surface-alt);
+      font-size: 10.5px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      color: var(--ink-faint);
+      font-weight: 700;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .stbl td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line-soft);
+      vertical-align: middle;
+    }
+
+    .stbl tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .stbl tr:hover td {
+      background: var(--surface-alt);
+    }
+
+    .name-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .mini-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--gold-pale);
+      color: var(--gold-deep);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .ftab {
+      padding: 8px 15px;
+      border-radius: 999px;
+      font-size: 12.5px;
+      font-weight: 700;
+      background: var(--surface-alt);
+      color: var(--ink-soft);
+    }
+
+    .ftab.active {
+      background: var(--navy);
+      color: #fff;
+    }
+
+    .searchbar {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .searchbar input {
+      flex: 1;
+      padding: 11px 15px;
+      border-radius: 9px;
+      border: 1px solid var(--line);
+      font-size: 13.5px;
+    }
+
+    /* Detail drawer */
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(36, 28, 18, .45);
+      z-index: 100;
+      display: none;
+    }
+
+    .drawer-overlay.active {
+      display: block;
+    }
+
+    .drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 520px;
+      max-width: 92vw;
+      height: 100vh;
+      background: #fff;
+      z-index: 101;
+      box-shadow: -10px 0 40px rgba(0, 0, 0, .2);
+      transform: translateX(100%);
+      transition: transform .25s ease;
+      overflow-y: auto;
+    }
+
+    .drawer.active {
+      transform: translateX(0);
+    }
+
+    .drawer-head {
+      padding: 22px 24px;
+      border-bottom: 1px solid var(--line-soft);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      position: sticky;
+      top: 0;
+      background: #fff;
+      z-index: 2;
+    }
+
+    .drawer-close {
+      background: var(--surface-alt);
+      border: 0;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      font-size: 15px;
+      color: var(--ink-soft);
+    }
+
+    .drawer-body {
+      padding: 24px;
+    }
+
+    .dtracker {
+      display: flex;
+      margin: 18px 0 22px;
+    }
+
+    .dstep {
+      flex: 1;
+      text-align: center;
+      position: relative;
+    }
+
+    .dstep::before {
+      content: "";
+      position: absolute;
+      top: 12px;
+      left: -50%;
+      width: 100%;
+      height: 2px;
+      background: var(--line);
+      z-index: 0;
+    }
+
+    .dstep:first-child::before {
+      display: none;
+    }
+
+    .dstep.done::before {
+      background: var(--gold);
+    }
+
+    .ddot {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10.5px;
+      margin: 0 auto 6px;
+      position: relative;
+      z-index: 1;
+      color: var(--ink-faint);
+    }
+
+    .dstep.done .ddot {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: #fff;
+    }
+
+    .dstep.current .ddot {
+      border-color: var(--gold-deep);
+      color: var(--gold-deep);
+      box-shadow: 0 0 0 3px var(--gold-pale);
+    }
+
+    .dstep .dlbl {
+      font-size: 9.5px;
+      font-weight: 700;
+      color: var(--ink-faint);
+    }
+
+    .dstep.done .dlbl,
+    .dstep.current .dlbl {
+      color: var(--ink);
+    }
+
+    .drow {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px dashed var(--line);
+      font-size: 13px;
+    }
+
+    .drow .l {
+      color: var(--ink-faint);
+    }
+
+    .drow .v {
+      font-weight: 700;
+    }
+
+    .drawer-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line-soft);
+    }
+
+    .mc-note {
+      background: var(--amber-bg);
+      color: #7A5A18;
+      font-size: 12px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      margin-top: 12px;
+    }
+
+    /* Reports bars */
+    .barchart {
+      display: flex;
+      align-items: flex-end;
+      gap: 16px;
+      height: 160px;
+      padding: 20px 10px 0;
+    }
+
+    .bar-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      height: 100%;
+    }
+
+    .bar-col .bar {
+      width: 100%;
+      max-width: 52px;
+      background: linear-gradient(180deg, var(--gold-light), var(--gold-deep));
+      border-radius: 6px 6px 0 0;
+    }
+
+    .bar-col .bv {
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .bar-col .bl {
+      font-size: 11px;
+      color: var(--ink-faint);
+      margin-top: 8px;
+    }
+
+    .audit-row {
+      display: flex;
+      gap: 12px;
+      padding: 13px 18px;
+      border-bottom: 1px solid var(--line-soft);
+      font-size: 12.5px;
+    }
+
+    .audit-row .t {
+      color: var(--ink-faint);
+      white-space: nowrap;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+    }
+
+    .audit-row .a {
+      font-weight: 700;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ================= LOGIN ================= -->
+  <div id="staffLogin" class="view active">
+    <div class="staff-login-card">
+      <div class="brand"><span class="mark">S</span> Suvarna Finance</div>
+      <div class="tag">Staff Portal</div>
+      <div class="field">
+        <label>Choose your role (demo)</label>
+        <div class="role-pick">
+          <div class="role-opt sel" id="roleOfficerOpt" onclick="pickRole('officer')"><span class="ric">🧑‍💼</span>Loan
+            Officer</div>
+          <div class="role-opt" id="roleManagerOpt" onclick="pickRole('manager')"><span class="ric">🧑‍⚖️</span>Branch
+            Manager</div>
+        </div>
+      </div>
+      <div class="field"><label>Staff ID or email</label><input type="text" id="staffLoginId"
+          placeholder="e.g. staff@suvarna.in"></div>
+      <div class="field"><label>Password</label><input type="password" id="staffLoginPass" placeholder="••••••••"></div>
+      <button class="btn btn-navy btn-block" onclick="staffLogin()">Log in to Staff Portal</button>
+      <p style="text-align:center;font-size:11.5px;color:var(--ink-faint);margin-top:16px;">Loan Officers create &amp;
+        recommend applications. Branch Managers approve them — segregated by design.</p>
+    </div>
+  </div>
+
+  <!-- ================= STAFF PORTAL ================= -->
+  <div id="staffPortal" class="view">
+    <aside class="ssidebar">
+      <div class="brand"><span class="mark">S</span> Suvarna</div>
+      <div class="staff-badge">Staff Portal</div>
+      <nav class="snav">
+        <a class="slink" data-sec="dash" onclick="sShow('dash')"><span class="ic">⌂</span> Dashboard</a>
+        <a class="slink" data-sec="newcust" onclick="sShow('newcust')"><span class="ic">👤</span> Add new customer</a>
+        <a class="slink" data-sec="newloan" onclick="sShow('newloan')"><span class="ic">＋</span> New loan request</a>
+        <a class="slink" data-sec="queue" onclick="sShow('queue')"><span class="ic">▤</span> Applications <span
+            class="badge-count" id="queueBadge">0</span></a>
+        <a class="slink" data-sec="customers" onclick="sShow('customers')"><span class="ic">🗂</span> Customers</a>
+        <a class="slink" data-sec="collections" onclick="sShow('collections')"><span class="ic">⏰</span> Collections</a>
+        <a class="slink" data-sec="reports" onclick="sShow('reports')"><span class="ic">📊</span> Reports (MIS)</a>
+        <a class="slink" data-sec="audit" onclick="sShow('audit')"><span class="ic">🛡</span> Audit log</a>
+      </nav>
+      <div class="sfoot">
+        <div class="suser">
+          <div class="savatar" id="sAvatar">S</div>
+          <div>
+            <div class="nm" id="sName">—</div>
+            <div class="rl" id="sRole">—</div>
+          </div>
+        </div>
+        <button class="slogout" onclick="staffLogout()">↩ Log out</button>
+      </div>
+    </aside>
+
+    <main class="smain">
+
+      <!-- DASHBOARD -->
+      <section class="ssec active" id="ssec-dash">
+        <div class="smain-head">
+          <div>
+            <h1 id="dashGreet">Good morning</h1>
+            <p class="sub">Branch: MG Road, Chandigarh · Today's snapshot</p>
+          </div>
+        </div>
+        <div class="stat-row">
+          <div class="card stat-box">
+            <div class="lbl">Pending my action</div>
+            <div class="val" id="statPending">0</div>
+          </div>
+          <div class="card stat-box">
+            <div class="lbl">Awaiting approval</div>
+            <div class="val" id="statAwaiting">0</div>
+          </div>
+          <div class="card stat-box">
+            <div class="lbl">Disbursed today</div>
+            <div class="val" id="statDisbursed">0</div>
+          </div>
+          <div class="card stat-box alert">
+            <div class="lbl">Overdue accounts</div>
+            <div class="val" id="statOverdue">0</div>
+          </div>
+          <div class="card stat-box">
+            <div class="lbl">Branch collection (MTD)</div>
+            <div class="val" id="statCollection">₹0</div>
+          </div>
+        </div>
+        <div class="card" style="margin-bottom:20px;">
+          <div style="padding:18px 20px 0;">
+            <h3 style="font-size:15px;">Needs your attention</h3>
+          </div>
+          <div id="attentionList"></div>
+        </div>
+      </section>
+
+      <!-- ADD NEW CUSTOMER -->
+      <section class="ssec" id="ssec-newcust">
+        <div class="smain-head">
+          <div>
+            <h1>Add a new customer</h1>
+            <p class="sub">Staff-assisted onboarding — capture KYC directly at the counter.</p>
+          </div>
+        </div>
+        <div class="card" style="padding:26px;max-width:640px;">
+          <div class="field-row">
+            <div class="field"><label>Full name</label><input type="text" id="ncName"
+                placeholder="As per PAN / Aadhaar"></div>
+            <div class="field"><label>Mobile number</label><input type="tel" id="ncPhone" placeholder="10-digit mobile"
+                maxlength="10"></div>
+          </div>
+          <div class="field"><label>Email (optional)</label><input type="email" id="ncEmail"
+              placeholder="customer@email.com"></div>
+          <div class="field-row">
+            <div class="field"><label>Aadhaar number</label><input type="text" id="ncAadhaar"
+                placeholder="XXXX XXXX XXXX"></div>
+            <div class="field"><label>PAN</label><input type="text" id="ncPan" placeholder="ABCDE1234F"
+                style="text-transform:uppercase;"></div>
+          </div>
+          <div class="field-row">
+            <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;margin-top:8px;"><input
+                type="checkbox" id="ncAddr" style="width:auto;"> Address proof collected</label>
+            <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;margin-top:8px;"><input
+                type="checkbox" id="ncPhoto" style="width:auto;"> Photograph captured</label>
+          </div>
+          <button class="btn btn-navy" style="margin-top:10px;" onclick="createCustomer()">Create customer profile
+            →</button>
+          <div id="ncConfirm"
+            style="display:none;margin-top:14px;padding:12px 14px;background:var(--green-bg);color:var(--green);border-radius:9px;font-size:13px;font-weight:600;">
+          </div>
+        </div>
+      </section>
+
+      <!-- NEW LOAN REQUEST -->
+      <section class="ssec" id="ssec-newloan">
+        <div class="smain-head">
+          <div>
+            <h1>Create a new loan request</h1>
+            <p class="sub">On behalf of a customer, for Gold Loan, LAP, or Personal Loan.</p>
+          </div>
+        </div>
+        <div class="card" style="padding:26px;max-width:720px;">
+          <div class="field"><label>Select customer</label>
+            <select id="nlCustomer" onchange="onNlCustomerChange()"></select>
+          </div>
+          <div class="field"><label>Product</label>
+            <select id="nlProduct" onchange="renderNlExtra()">
+              <option value="gold">Gold Loan</option>
+              <option value="property">Loan Against Property</option>
+              <option value="personal">Personal Loan</option>
+            </select>
+          </div>
+          <div class="field-row">
+            <div class="field"><label>Loan amount requested</label><input type="number" id="nlAmount" value="100000">
+            </div>
+            <div class="field"><label>Tenure (months)</label><input type="number" id="nlTenure" value="12"></div>
+          </div>
+          <div id="nlExtra"></div>
+          <div class="field"><label>Purpose</label><input type="text" id="nlPurpose"
+              placeholder="e.g. Business working capital"></div>
+          <button class="btn btn-navy" onclick="createLoanRequest()">Submit loan request →</button>
+          <div id="nlConfirm"
+            style="display:none;margin-top:14px;padding:12px 14px;background:var(--green-bg);color:var(--green);border-radius:9px;font-size:13px;font-weight:600;">
+          </div>
+        </div>
+      </section>
+
+      <!-- APPLICATIONS QUEUE -->
+      <section class="ssec" id="ssec-queue">
+        <div class="smain-head">
+          <div>
+            <h1>Applications</h1>
+            <p class="sub">Every loan request across products — process through KYC, credit check, approval and
+              disbursement.</p>
+          </div>
+        </div>
+        <div class="filter-tabs" id="queueFilters"></div>
+        <div class="card">
+          <table class="stbl">
+            <thead>
+              <tr>
+                <th>Customer</th>
+                <th>Product</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Applied</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="queueBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- CUSTOMERS -->
+      <section class="ssec" id="ssec-customers">
+        <div class="smain-head">
+          <div>
+            <h1>Customers</h1>
+            <p class="sub">Search and view a customer's full profile — KYC, loans and documents.</p>
+          </div>
+        </div>
+        <div class="searchbar"><input type="text" id="custSearch" placeholder="Search by name or phone..."
+            oninput="renderCustomersList()"></div>
+        <div class="card">
+          <table class="stbl">
+            <thead>
+              <tr>
+                <th>Customer</th>
+                <th>Phone</th>
+                <th>KYC</th>
+                <th>Credit score</th>
+                <th>Loans</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="custBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- COLLECTIONS -->
+      <section class="ssec" id="ssec-collections">
+        <div class="smain-head">
+          <div>
+            <h1>Collections</h1>
+            <p class="sub">Overdue EMIs needing follow-up.</p>
+          </div>
+        </div>
+        <div class="card">
+          <table class="stbl">
+            <thead>
+              <tr>
+                <th>Customer</th>
+                <th>Loan</th>
+                <th>EMI due</th>
+                <th>Days overdue</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="collBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- REPORTS -->
+      <section class="ssec" id="ssec-reports">
+        <div class="smain-head">
+          <div>
+            <h1>Reports (MIS)</h1>
+            <p class="sub">Branch-level performance at a glance.</p>
+          </div>
+        </div>
+        <div class="card" style="padding:22px;margin-bottom:20px;">
+          <h3 style="font-size:15px;margin-bottom:6px;">Applications by product (this month)</h3>
+          <div class="barchart" id="barByProduct"></div>
+        </div>
+        <div class="stat-row" style="grid-template-columns:repeat(3,1fr);">
+          <div class="card stat-box">
+            <div class="lbl">Total applications</div>
+            <div class="val" id="repTotal">0</div>
+          </div>
+          <div class="card stat-box">
+            <div class="lbl">Approval rate</div>
+            <div class="val" id="repApproval">0%</div>
+          </div>
+          <div class="card stat-box">
+            <div class="lbl">Avg. turnaround (demo)</div>
+            <div class="val">2.1 days</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- AUDIT LOG -->
+      <section class="ssec" id="ssec-audit">
+        <div class="smain-head">
+          <div>
+            <h1>Audit log</h1>
+            <p class="sub">Immutable record of every action taken on customer and loan records.</p>
+          </div>
+        </div>
+        <div class="card" id="auditList"></div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ================= DRAWER (application detail) ================= -->
+  <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+  <div class="drawer" id="drawer">
+    <div class="drawer-head">
+      <div>
+        <div style="font-size:11px;color:var(--ink-faint);text-transform:uppercase;font-weight:700;">Application</div>
+        <h3 id="drawerTitle" style="font-size:18px;">—</h3>
+      </div>
+      <button class="drawer-close" onclick="closeDrawer()">✕</button>
+    </div>
+    <div class="drawer-body" id="drawerBody"></div>
+  </div>
+
+  <script>
+    /* ============================================================
+       STATE
+       ============================================================ */
+    const PRODUCTS = {
+      gold: { label: 'Gold Loan', icon: '🪙', rate: 9.5 },
+      property: { label: 'Loan Against Property', icon: '🏠', rate: 10.5 },
+      personal: { label: 'Personal Loan', icon: '💳', rate: 11 }
+    };
+    const APP_STEPS = ['Submitted', 'KYC verified', 'Credit & valuation', 'Recommended', 'Approved', 'Disbursed'];
+
+    let staffUser = null;
+    let pickedRole = 'officer';
+
+    let customers = [
+      {
+        id: 1, name: 'Ramesh Kumar', phone: '9876501234', email: 'ramesh.k@email.com',
+        kyc: { aadhaar: '2345 6789 0123', pan: 'ABCDE1234F', address: true, photo: true, verified: true }, creditScore: 742
+      },
+      {
+        id: 2, name: 'Priya Sharma', phone: '9812345678', email: 'priya.sharma@email.com',
+        kyc: { aadhaar: '3456 7890 1234', pan: 'BXPPK7345L', address: true, photo: true, verified: true }, creditScore: 701
+      }
+    ];
+    let custIdSeq = 3;
+
+    let loans = [
+      { id: 2001, custId: 1, product: 'gold', amount: 180000, tenure: 12, rate: 9.5, emi: 0, status: 5, date: '12 Aug 2026', purpose: 'Working capital', recommendedBy: 'Amit (Officer)', approvedBy: 'Neha (Manager)', overdueEmis: 1, valuation: { goldWeight: 28, purity: '22k' } },
+      { id: 2002, custId: 2, product: 'personal', amount: 50000, tenure: 6, rate: 8, emi: 0, status: 3, date: '20 Aug 2026', purpose: 'Medical', recommendedBy: 'Amit (Officer)', approvedBy: null, overdueEmis: 0 }
+    ];
+    let loanIdSeq = 2003;
+    let auditLog = [];
+
+    /* ============================================================
+       AUTH
+       ============================================================ */
+    function pickRole(role) {
+      pickedRole = role;
+      document.getElementById('roleOfficerOpt').classList.toggle('sel', role === 'officer');
+      document.getElementById('roleManagerOpt').classList.toggle('sel', role === 'manager');
+    }
+    function staffLogin() {
+      const id = document.getElementById('staffLoginId').value.trim();
+      staffUser = { name: pickedRole === 'officer' ? (id || 'Amit Verma') : (id || 'Neha Kapoor'), role: pickedRole };
+      document.getElementById('staffLogin').classList.remove('active');
+      document.getElementById('staffPortal').classList.add('active');
+      document.getElementById('sAvatar').textContent = staffUser.name.charAt(0).toUpperCase();
+      document.getElementById('sName').textContent = staffUser.name;
+      document.getElementById('sRole').textContent = staffUser.role === 'officer' ? 'Loan Officer' : 'Branch Manager';
+      document.getElementById('dashGreet').textContent = 'Good morning, ' + staffUser.name.split(' ')[0];
+      logAudit('Logged in as ' + (staffUser.role === 'officer' ? 'Loan Officer' : 'Branch Manager'));
+      sShow('dash');
+    }
+    function staffLogout() {
+      staffUser = null;
+      document.getElementById('staffPortal').classList.remove('active');
+      document.getElementById('staffLogin').classList.add('active');
+    }
+
+    /* ============================================================
+       NAV
+       ============================================================ */
+    function sShow(name) {
+      document.querySelectorAll('.ssec').forEach(s => s.classList.remove('active'));
+      document.getElementById('ssec-' + name).classList.add('active');
+      document.querySelectorAll('.slink').forEach(l => l.classList.toggle('active', l.dataset.sec === name));
+      if (name === 'dash') renderDash();
+      if (name === 'newloan') renderNewLoan();
+      if (name === 'queue') renderQueue();
+      if (name === 'customers') renderCustomersList();
+      if (name === 'collections') renderCollections();
+      if (name === 'reports') renderReports();
+      if (name === 'audit') renderAudit();
+      updateBadge();
+      window.scrollTo(0, 0);
+    }
+    function updateBadge() {
+      const pending = loans.filter(l => actionableByMe(l)).length;
+      document.getElementById('queueBadge').textContent = pending;
+    }
+    function inr(n) { n = Math.round(n || 0); return '₹' + n.toLocaleString('en-IN'); }
+    function calcEmiValue(P, ratePct, n) {
+      if (!ratePct) return Math.round(P / n);
+      const r = ratePct / 1200;
+      return Math.round(P * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1));
+    }
+    function custById(id) { return customers.find(c => c.id === id); }
+    function logAudit(action) {
+      auditLog.unshift({ time: new Date().toLocaleString('en-IN', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }), actor: staffUser ? staffUser.name : 'System', action });
+    }
+
+    /* ============================================================
+       DASHBOARD
+       ============================================================ */
+    function renderDash() {
+      const myPending = loans.filter(l => actionableByMe(l));
+      const awaiting = loans.filter(l => l.status === 3);
+      const disbursedToday = loans.filter(l => l.status === 5).length;
+      const overdue = loans.filter(l => l.overdueEmis > 0);
+      document.getElementById('statPending').textContent = myPending.length;
+      document.getElementById('statAwaiting').textContent = awaiting.length;
+      document.getElementById('statDisbursed').textContent = disbursedToday;
+      document.getElementById('statOverdue').textContent = overdue.length;
+      document.getElementById('statCollection').textContent = inr(loans.filter(l => l.status === 5).reduce((s, l) => s + l.emi * (l.tenure - l.overdueEmis || 0) * 0 + l.emi, 0));
+
+      const list = document.getElementById('attentionList');
+      if (myPending.length === 0) {
+        list.innerHTML = `<div style="padding:30px;text-align:center;color:var(--ink-faint);font-size:13px;">Nothing needs your action right now.</div>`;
+      } else {
+        list.innerHTML = myPending.slice(0, 6).map(l => {
+          const c = custById(l.custId); const p = PRODUCTS[l.product];
+          return `<div style="display:flex;justify-content:space-between;align-items:center;padding:13px 20px;border-bottom:1px solid var(--line-soft);">
+        <div class="name-cell"><div class="mini-avatar">${c.name.charAt(0)}</div><div><b style="font-size:13.5px;">${c.name}</b><div style="font-size:11.5px;color:var(--ink-faint);">${p.icon} ${p.label} · ${inr(l.amount)} · ${APP_STEPS[l.status]}</div></div></div>
+        <button class="btn btn-ghost btn-sm" onclick="openDrawer(${l.id})">Review →</button>
+      </div>`;
+        }).join('');
+      }
+    }
+    function actionableByMe(l) {
+      if (!staffUser) return false;
+      if (staffUser.role === 'officer') return l.status <= 2;
+      if (staffUser.role === 'manager') return l.status === 3;
+      return false;
+    }
+
+    /* ============================================================
+       ADD NEW CUSTOMER
+       ============================================================ */
+    function createCustomer() {
+      const name = document.getElementById('ncName').value.trim();
+      const phone = document.getElementById('ncPhone').value.trim();
+      if (!name || !phone) { alert('Please enter at least name and phone number.'); return; }
+      const email = document.getElementById('ncEmail').value.trim();
+      const aadhaar = document.getElementById('ncAadhaar').value.trim() || null;
+      const pan = document.getElementById('ncPan').value.trim().toUpperCase() || null;
+      const address = document.getElementById('ncAddr').checked;
+      const photo = document.getElementById('ncPhoto').checked;
+      const verified = !!(aadhaar && pan && address && photo);
+      const cust = { id: custIdSeq++, name, phone, email, kyc: { aadhaar, pan, address, photo, verified }, creditScore: null };
+      customers.push(cust);
+      logAudit(`Created customer profile — ${name} (#${cust.id})`);
+      document.getElementById('ncConfirm').style.display = 'block';
+      document.getElementById('ncConfirm').textContent = `✓ Customer "${name}" created${verified ? ' — KYC complete.' : ' — KYC incomplete, can be finished later.'}`;
+      ['ncName', 'ncPhone', 'ncEmail', 'ncAadhaar', 'ncPan'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('ncAddr').checked = false; document.getElementById('ncPhoto').checked = false;
+    }
+
+    /* ============================================================
+       NEW LOAN REQUEST
+       ============================================================ */
+    function renderNewLoan() {
+      const sel = document.getElementById('nlCustomer');
+      sel.innerHTML = customers.map(c => `<option value="${c.id}">${c.name} — ${c.phone}</option>`).join('');
+      renderNlExtra();
+    }
+    function onNlCustomerChange() { renderNlExtra(); }
+    function renderNlExtra() {
+      const product = document.getElementById('nlProduct').value;
+      const box = document.getElementById('nlExtra');
+      if (product === 'gold') {
+        box.innerHTML = `<div class="field-row3">
+      <div class="field"><label>Gold weight (grams)</label><input type="number" id="nlGoldWeight" value="20"></div>
+      <div class="field"><label>Purity</label><select id="nlPurity"><option value="22k">22 Karat</option><option value="18k">18 Karat</option></select></div>
+      <div class="field"><label>Valuer name</label><input type="text" id="nlValuer" placeholder="Branch valuer"></div>
+    </div>`;
+      } else if (product === 'property') {
+        box.innerHTML = `<div class="field-row">
+      <div class="field"><label>Property type</label><select id="nlPropType"><option value="residential">Residential</option><option value="commercial">Commercial</option></select></div>
+      <div class="field"><label>Estimated property value</label><input type="number" id="nlPropValue" value="3000000"></div>
+    </div>`;
+      } else {
+        box.innerHTML = `<div class="field-row">
+      <div class="field"><label>Monthly income</label><input type="number" id="nlIncome" value="45000"></div>
+      <div class="field"><label>Employment type</label><select id="nlEmp"><option value="salaried">Salaried</option><option value="self">Self-employed</option></select></div>
+    </div>`;
+      }
+    }
+    function createLoanRequest() {
+      const custId = +document.getElementById('nlCustomer').value;
+      if (!custId) { alert('Please add a customer first.'); return; }
+      const product = document.getElementById('nlProduct').value;
+      const amount = +document.getElementById('nlAmount').value;
+      const tenure = +document.getElementById('nlTenure').value;
+      const rate = PRODUCTS[product].rate;
+      const emi = calcEmiValue(amount, rate, tenure);
+      const purpose = document.getElementById('nlPurpose').value.trim();
+      let valuation = {};
+      if (product === 'gold') valuation = { goldWeight: +document.getElementById('nlGoldWeight').value, purity: document.getElementById('nlPurity').value, valuer: document.getElementById('nlValuer').value };
+      if (product === 'property') valuation = { propType: document.getElementById('nlPropType').value, propValue: +document.getElementById('nlPropValue').value };
+      if (product === 'personal') valuation = { income: +document.getElementById('nlIncome').value, emp: document.getElementById('nlEmp').value };
+      const loan = { id: loanIdSeq++, custId, product, amount, tenure, rate, emi, status: 0, date: new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }), purpose, recommendedBy: null, approvedBy: null, overdueEmis: 0, valuation };
+      loans.push(loan);
+      logAudit(`New ${PRODUCTS[product].label} request #${loan.id} created for ${custById(custId).name} — ${inr(amount)}`);
+      document.getElementById('nlConfirm').style.display = 'block';
+      document.getElementById('nlConfirm').textContent = `✓ Loan request #${loan.id} submitted — now in the applications queue.`;
+      updateBadge();
+    }
+
+    /* ============================================================
+       APPLICATIONS QUEUE
+       ============================================================ */
+    let queueFilter = 'all';
+    function renderQueueFilters() {
+      const tabs = [['all', 'All'], ['mine', 'Needs my action'], ['gold', 'Gold Loan'], ['property', 'LAP'], ['personal', 'Personal Loan']];
+      document.getElementById('queueFilters').innerHTML = tabs.map(([k, l]) => `<div class="ftab ${queueFilter === k ? 'active' : ''}" onclick="setQueueFilter('${k}')">${l}</div>`).join('');
+    }
+    function setQueueFilter(k) { queueFilter = k; renderQueue(); }
+    function renderQueue() {
+      renderQueueFilters();
+      let list = loans.slice().reverse();
+      if (queueFilter === 'mine') list = list.filter(l => actionableByMe(l));
+      else if (['gold', 'property', 'personal'].includes(queueFilter)) list = list.filter(l => l.product === queueFilter);
+      document.getElementById('queueBody').innerHTML = list.length ? list.map(l => {
+        const c = custById(l.custId); const p = PRODUCTS[l.product];
+        const pillClass = l.status >= 5 ? 'pill-green' : (l.status === 3 ? 'pill-amber' : 'pill-gold');
+        return `<tr>
+      <td><div class="name-cell"><div class="mini-avatar">${c.name.charAt(0)}</div>${c.name}</div></td>
+      <td>${p.icon} ${p.label}</td>
+      <td>${inr(l.amount)}</td>
+      <td><span class="pill ${pillClass}">${APP_STEPS[l.status]}</span></td>
+      <td style="color:var(--ink-faint);">${l.date}</td>
+      <td><button class="btn btn-ghost btn-sm" onclick="openDrawer(${l.id})">Open →</button></td>
+    </tr>`;
+      }).join('') : `<tr><td colspan="6" style="text-align:center;color:var(--ink-faint);padding:30px;">No applications match this filter.</td></tr>`;
+    }
+
+    /* ============================================================
+       DRAWER — application detail & processing
+       ============================================================ */
+    function openDrawer(id) {
+      const l = loans.find(x => x.id === id);
+      const c = custById(l.custId); const p = PRODUCTS[l.product];
+      document.getElementById('drawerTitle').textContent = `#${l.id} · ${p.label}`;
+
+      const steps = APP_STEPS.map((lbl, i) => {
+        const cls = i < l.status ? 'done' : (i === l.status ? 'current' : '');
+        return `<div class="dstep ${cls}"><div class="ddot">${i < l.status ? '✓' : (i + 1)}</div><div class="dlbl">${lbl}</div></div>`;
+      }).join('');
+
+      let valRows = '';
+      if (l.product === 'gold') valRows = `<div class="drow"><span class="l">Gold weight</span><span class="v">${l.valuation.goldWeight || '—'} g</span></div><div class="drow"><span class="l">Purity</span><span class="v">${l.valuation.purity || '—'}</span></div>`;
+      if (l.product === 'property') valRows = `<div class="drow"><span class="l">Property type</span><span class="v">${l.valuation.propType || '—'}</span></div><div class="drow"><span class="l">Estimated value</span><span class="v">${inr(l.valuation.propValue || 0)}</span></div>`;
+      if (l.product === 'personal') valRows = `<div class="drow"><span class="l">Monthly income</span><span class="v">${inr(l.valuation.income || 0)}</span></div><div class="drow"><span class="l">Employment</span><span class="v">${l.valuation.emp || '—'}</span></div>`;
+
+      let actions = '';
+      if (staffUser.role === 'officer') {
+        if (l.status === 0) actions += `<button class="btn btn-navy" onclick="advanceLoan(${l.id},1,'KYC verified')">Verify customer KYC →</button>`;
+        if (l.status === 1) actions += `<button class="btn btn-navy" onclick="advanceLoan(${l.id},2,'Credit & valuation check completed')">Run credit &amp; valuation check →</button>`;
+        if (l.status === 2) actions += `<button class="btn btn-gold" onclick="recommendLoan(${l.id})">Recommend for approval →</button>`;
+      }
+      if (staffUser.role === 'manager') {
+        if (l.status === 3) {
+          actions += `<div class="mc-note">Maker-checker: this was recommended by ${l.recommendedBy}. As Branch Manager, you approve or reject — you cannot recommend your own applications.</div>
+      <div style="display:flex;gap:10px;margin-top:10px;">
+        <button class="btn btn-green" style="flex:1;" onclick="approveLoan(${l.id})">✓ Approve</button>
+        <button class="btn btn-red" style="flex:1;" onclick="rejectLoan(${l.id})">✕ Reject</button>
+      </div>`;
+        }
+      }
+      if (l.status === 4) actions += `<button class="btn btn-gold" onclick="disburseLoan(${l.id})">Mark as disbursed →</button>`;
+      if (!actions) actions = `<div style="font-size:12.5px;color:var(--ink-faint);text-align:center;padding:10px;">No action available for your role at this stage.</div>`;
+
+      document.getElementById('drawerBody').innerHTML = `
+    <div class="dtracker">${steps}</div>
+    <div class="drow"><span class="l">Customer</span><span class="v">${c.name}</span></div>
+    <div class="drow"><span class="l">Phone</span><span class="v">${c.phone}</span></div>
+    <div class="drow"><span class="l">KYC status</span><span class="v">${c.kyc.verified ? '✅ Verified' : '⚠ Incomplete'}</span></div>
+    <div class="drow"><span class="l">Credit score</span><span class="v">${c.creditScore || 'Not checked'}</span></div>
+    <div class="drow"><span class="l">Amount</span><span class="v">${inr(l.amount)}</span></div>
+    <div class="drow"><span class="l">Tenure</span><span class="v">${l.tenure} months</span></div>
+    <div class="drow"><span class="l">Rate</span><span class="v">${l.rate}% p.a.</span></div>
+    <div class="drow"><span class="l">EMI</span><span class="v">${inr(l.emi)}</span></div>
+    <div class="drow"><span class="l">Purpose</span><span class="v">${l.purpose || '—'}</span></div>
+    ${valRows}
+    <div class="drow"><span class="l">Recommended by</span><span class="v">${l.recommendedBy || '—'}</span></div>
+    <div class="drow"><span class="l">Approved by</span><span class="v">${l.approvedBy || '—'}</span></div>
+    <div class="drawer-actions">${actions}</div>
+  `;
+      document.getElementById('drawer').classList.add('active');
+      document.getElementById('drawerOverlay').classList.add('active');
+    }
+    function closeDrawer() {
+      document.getElementById('drawer').classList.remove('active');
+      document.getElementById('drawerOverlay').classList.remove('active');
+    }
+    function advanceLoan(id, newStatus, note) {
+      const l = loans.find(x => x.id === id);
+      if (newStatus === 2 && !custById(l.custId).creditScore) { custById(l.custId).creditScore = 660 + Math.floor(Math.random() * 180); }
+      l.status = newStatus;
+      logAudit(`Application #${id} — ${note}`);
+      openDrawer(id); renderQueue(); renderDash(); updateBadge();
+    }
+    function recommendLoan(id) {
+      const l = loans.find(x => x.id === id);
+      l.status = 3; l.recommendedBy = staffUser.name + ' (Officer)';
+      logAudit(`Application #${id} recommended for approval by ${staffUser.name}`);
+      openDrawer(id); renderQueue(); renderDash(); updateBadge();
+    }
+    function approveLoan(id) {
+      const l = loans.find(x => x.id === id);
+      l.status = 4; l.approvedBy = staffUser.name + ' (Manager)';
+      logAudit(`Application #${id} approved by ${staffUser.name} (maker: ${l.recommendedBy})`);
+      openDrawer(id); renderQueue(); renderDash(); updateBadge();
+    }
+    function rejectLoan(id) {
+      const l = loans.find(x => x.id === id);
+      logAudit(`Application #${id} rejected by ${staffUser.name}`);
+      loans = loans.filter(x => x.id !== id);
+      closeDrawer(); renderQueue(); renderDash(); updateBadge();
+    }
+    function disburseLoan(id) {
+      const l = loans.find(x => x.id === id);
+      l.status = 5;
+      logAudit(`Application #${id} disbursed — ${inr(l.amount)} to ${custById(l.custId).name}`);
+      openDrawer(id); renderQueue(); renderDash(); updateBadge();
+    }
+
+    /* ============================================================
+       CUSTOMERS
+       ============================================================ */
+    function renderCustomersList() {
+      const q = (document.getElementById('custSearch').value || '').toLowerCase();
+      const list = customers.filter(c => c.name.toLowerCase().includes(q) || c.phone.includes(q));
+      document.getElementById('custBody').innerHTML = list.map(c => {
+        const myLoans = loans.filter(l => l.custId === c.id);
+        return `<tr>
+      <td><div class="name-cell"><div class="mini-avatar">${c.name.charAt(0)}</div>${c.name}</div></td>
+      <td>${c.phone}</td>
+      <td>${c.kyc.verified ? '<span class="pill pill-green">Verified</span>' : '<span class="pill pill-amber">Incomplete</span>'}</td>
+      <td>${c.creditScore || '—'}</td>
+      <td>${myLoans.length}</td>
+      <td><button class="btn btn-ghost btn-sm" onclick="alert('${myLoans.length} loan(s) for ${c.name}. Open Applications tab and filter to review each.')">View →</button></td>
+    </tr>`;
+      }).join('');
+    }
+
+    /* ============================================================
+       COLLECTIONS
+       ============================================================ */
+    function renderCollections() {
+      const overdue = loans.filter(l => l.overdueEmis > 0);
+      document.getElementById('collBody').innerHTML = overdue.length ? overdue.map(l => {
+        const c = custById(l.custId);
+        return `<tr>
+      <td><div class="name-cell"><div class="mini-avatar">${c.name.charAt(0)}</div>${c.name}</div></td>
+      <td>${PRODUCTS[l.product].icon} #${l.id}</td>
+      <td>${inr(l.emi)}</td>
+      <td><span class="pill pill-red">${l.overdueEmis * 7} days</span></td>
+      <td><button class="btn btn-ghost btn-sm" onclick="markContacted(${l.id})">Mark contacted</button></td>
+    </tr>`;
+      }).join('') : `<tr><td colspan="5" style="text-align:center;color:var(--ink-faint);padding:30px;">No overdue accounts. 🎉</td></tr>`;
+    }
+    function markContacted(id) {
+      logAudit(`Customer for loan #${id} contacted regarding overdue EMI`);
+      alert('Follow-up logged.');
+    }
+
+    /* ============================================================
+       REPORTS
+       ============================================================ */
+    function renderReports() {
+      const byProduct = { gold: 0, property: 0, personal: 0 };
+      loans.forEach(l => byProduct[l.product]++);
+      const max = Math.max(1, ...Object.values(byProduct));
+      document.getElementById('barByProduct').innerHTML = Object.keys(byProduct).map(k => {
+        const h = Math.max(6, Math.round(byProduct[k] / max * 130));
+        return `<div class="bar-col"><div class="bv">${byProduct[k]}</div><div class="bar" style="height:${h}px"></div><div class="bl">${PRODUCTS[k].label}</div></div>`;
+      }).join('');
+      document.getElementById('repTotal').textContent = loans.length;
+      const decided = loans.filter(l => l.status >= 4).length;
+      document.getElementById('repApproval').textContent = loans.length ? Math.round(decided / loans.length * 100) + '%' : '0%';
+    }
+
+    /* ============================================================
+       AUDIT
+       ============================================================ */
+    function renderAudit() {
+      document.getElementById('auditList').innerHTML = auditLog.length ? auditLog.map(a => `
+    <div class="audit-row"><span class="t">${a.time}</span><span class="a">${a.actor}:</span><span>${a.action}</span></div>
+  `).join('') : `<div style="padding:30px;text-align:center;color:var(--ink-faint);">No actions logged yet this session.</div>`;
+    }
+  </script>
+
+<script src="demo-nav.js"></script>
+</body>
+
+</html>

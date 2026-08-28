@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Suvarna — Gold Loan Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F6F4EE;
+    --surface:#FFFFFF;
+    --surface-2:#F1EEE4;
+    --surface-3:#E9E4D6;
+    --border:#E3DDCD;
+    --gold:#A9821E;
+    --gold-bright:#C9A227;
+    --gold-soft:#EFE4C2;
+    --text:#2B2E27;
+    --text-muted:#6C7266;
+    --text-faint:#9A9C8F;
+    --success:#2F7A56;
+    --success-soft:#E4F1EA;
+    --danger:#B23B30;
+    --danger-soft:#F7E7E4;
+    --info:#4D6C82;
+    --display: 'Fraunces', serif;
+    --body: 'Inter', sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
+    --radius: 14px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{height:100%;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--body);
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit; text-decoration:none;}
+  button{font-family:inherit; cursor:pointer; border:none;}
+  input,select{font-family:inherit;}
+
+  /* ============ LOGIN PAGE ============ */
+  #page-login{
+    min-height:100vh; display:grid; grid-template-columns: 1.1fr 0.9fr;
+  }
+  .login-brand{
+    position:relative;
+    background:
+      radial-gradient(circle at 20% 15%, rgba(169,130,30,0.10), transparent 55%),
+      radial-gradient(circle at 85% 80%, rgba(169,130,30,0.08), transparent 50%),
+      linear-gradient(180deg, #FBF9F3 0%, #F3EEE0 100%);
+    display:flex; flex-direction:column; justify-content:space-between;
+    padding:56px 64px;
+    border-right:1px solid var(--border);
+    overflow:hidden;
+  }
+  .brand-mark{display:flex; align-items:center; gap:12px;}
+  .brand-mark span{font-family:var(--display); font-size:20px; letter-spacing:0.03em; color:var(--gold);}
+  .login-brand h1{
+    font-family:var(--display); font-weight:500; font-size:clamp(36px,4vw,54px);
+    line-height:1.1; max-width:9.5em; margin-top:40px; color:var(--text);
+  }
+  .login-brand h1 em{font-style:italic; color:var(--gold);}
+  .login-brand p.sub{
+    font-size:15px; color:var(--text-muted); max-width:32em; margin-top:20px; line-height:1.6;
+  }
+  .seal-wrap{position:absolute; right:-40px; bottom:-40px; opacity:0.85;}
+  .brand-stats{
+    display:flex; gap:40px; border-top:1px solid var(--border); padding-top:24px; margin-top:40px;
+  }
+  .brand-stats div b{
+    display:block; font-family:var(--mono); font-size:22px; color:var(--gold); font-weight:500;
+  }
+  .brand-stats div span{font-size:12px; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.06em;}
+
+  .login-form-panel{
+    background:var(--surface); display:flex; align-items:center; justify-content:center; padding:40px;
+  }
+  .login-card{width:100%; max-width:380px;}
+  .login-card .eyebrow{
+    font-size:12px; text-transform:uppercase; letter-spacing:0.12em; color:var(--gold);
+    font-weight:600; margin-bottom:10px;
+  }
+  .login-card h2{font-family:var(--display); font-weight:500; font-size:28px; margin-bottom:6px;}
+  .login-card p.hint{color:var(--text-muted); font-size:14px; margin-bottom:28px;}
+
+  .field{margin-bottom:18px;}
+  .field label{display:block; font-size:12.5px; color:var(--text-muted); margin-bottom:7px; font-weight:500;}
+  .field select, .field input{
+    width:100%; background:var(--surface-2); border:1px solid var(--border); color:var(--text);
+    padding:12px 14px; border-radius:9px; font-size:14.5px; outline:none;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .field select:focus, .field input:focus{border-color:var(--gold); background:#fff;}
+  .field-row{display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;}
+  .field-row a{font-size:12.5px; color:var(--gold); font-weight:500;}
+  .field-row label{display:flex; align-items:center; gap:8px; font-size:13px; color:var(--text-muted);}
+
+  .btn-primary{
+    width:100%; background:linear-gradient(180deg, var(--gold-bright), var(--gold));
+    color:#FFFBF0; font-weight:700; font-size:14.5px; padding:13px; border-radius:9px;
+    letter-spacing:0.01em;
+    box-shadow: 0 8px 20px rgba(169,130,30,0.20);
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .btn-primary:hover{transform:translateY(-1px); box-shadow:0 10px 24px rgba(169,130,30,0.28);}
+
+  .mfa-note{
+    display:flex; gap:10px; align-items:flex-start; background:var(--surface-2);
+    border:1px solid var(--border); border-radius:9px; padding:12px 14px; margin:20px 0;
+    font-size:12.5px; color:var(--text-muted); line-height:1.5;
+  }
+  .mfa-note svg{flex-shrink:0; margin-top:2px;}
+
+  .demo-link{
+    display:block; text-align:center; margin-top:22px; font-size:13px; color:var(--text-faint);
+  }
+  .demo-link b{color:var(--gold); font-weight:600; border-bottom:1px solid var(--gold-soft);}
+
+  @media (max-width: 860px){
+    #page-login{grid-template-columns:1fr;}
+    .login-brand{display:none;}
+  }
+
+  /* ============ DASHBOARD SHELL ============ */
+  #page-dashboard{display:none; min-height:100vh;}
+  .topbar{
+    height:64px; border-bottom:1px solid var(--border); background:var(--surface);
+    display:flex; align-items:center; justify-content:space-between; padding:0 24px;
+    position:sticky; top:0; z-index:10;
+  }
+  .topbar-left{display:flex; align-items:center; gap:10px;}
+  .topbar-left span.word{font-family:var(--display); font-size:17px; color:var(--gold);}
+  .search{
+    flex:1; max-width:360px; margin:0 32px; background:var(--surface-2); border:1px solid var(--border);
+    border-radius:8px; padding:8px 14px; font-size:13px; color:var(--text-faint); display:flex; align-items:center; gap:8px;
+  }
+  .topbar-right{display:flex; align-items:center; gap:18px;}
+  .branch-badge{
+    font-size:12px; background:var(--surface-2); border:1px solid var(--border); padding:6px 12px;
+    border-radius:20px; color:var(--text-muted);
+  }
+  .bell{position:relative;}
+  .bell .dot{position:absolute; top:-2px; right:-2px; width:7px; height:7px; background:var(--danger); border-radius:50%; border:1.5px solid var(--surface);}
+  .avatar{
+    width:34px; height:34px; border-radius:50%; background:linear-gradient(135deg,var(--gold-bright),var(--gold));
+    display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size:13px; color:#FFFBF0; font-weight:600;
+  }
+  .logout-link{font-size:12.5px; color:var(--text-faint); border:1px solid var(--border); padding:7px 12px; border-radius:7px;}
+  .logout-link:hover{color:var(--text); border-color:var(--gold);}
+
+  .shell{display:grid; grid-template-columns:220px 1fr;}
+  .sidebar{
+    border-right:1px solid var(--border); background:var(--surface); padding:20px 12px; min-height:calc(100vh - 64px);
+  }
+  .nav-item{
+    display:flex; align-items:center; gap:11px; padding:10px 12px; border-radius:8px; font-size:13.5px;
+    color:var(--text-muted); margin-bottom:2px; font-weight:500; cursor:pointer;
+  }
+  .nav-item svg{opacity:0.7;}
+  .nav-item.active{background:var(--gold-soft); color:var(--gold);}
+  .nav-item.active svg{opacity:1;}
+  .nav-item:hover:not(.active){background:var(--surface-2); color:var(--text);}
+  .nav-label{font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-faint); padding:16px 12px 8px;}
+
+  .main{padding:28px 32px 60px;}
+  .page-head{display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:24px; flex-wrap:wrap; gap:14px;}
+  .page-head .btn-primary{width:auto; padding:10px 18px; font-size:13.5px; margin:0; flex-shrink:0;}
+  .page-head h1{font-family:var(--display); font-weight:500; font-size:26px;}
+  .page-head p{color:var(--text-muted); font-size:13.5px; margin-top:4px;}
+
+  .page-section{display:none;}
+  .page-section.active{display:block;}
+
+  .kpi-row{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:24px;}
+  .kpi-card{
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:18px 20px;
+  }
+  .kpi-card .label{font-size:11.5px; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:10px;}
+  .kpi-card .val{font-family:var(--mono); font-size:22px; font-weight:500;}
+  .kpi-card .val.gold{color:var(--gold);}
+  .kpi-card .val.danger{color:var(--danger);}
+  .kpi-card .val.success{color:var(--success);}
+  .kpi-card .delta{font-size:11.5px; color:var(--text-faint); margin-top:6px;}
+
+  .grid-2{display:grid; grid-template-columns:1.55fr 1fr; gap:16px; align-items:start;}
+
+  .card{background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:22px 24px; margin-bottom:16px; box-shadow:0 1px 2px rgba(43,46,39,0.03);}
+  .card-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:10px;}
+  .card-head h3{font-family:var(--display); font-weight:500; font-size:16.5px;}
+  .card-head .tag{font-size:11px; color:var(--gold); background:var(--gold-soft); padding:4px 10px; border-radius:20px; font-weight:600; letter-spacing:0.03em;}
+
+  /* stepper */
+  .stepper{display:flex; align-items:flex-start; overflow-x:auto; padding-bottom:6px;}
+  .step{display:flex; flex-direction:column; align-items:center; min-width:98px; position:relative; flex:1;}
+  .step .line{
+    position:absolute; top:12px; left:-50%; width:100%; height:2px; background:var(--border); z-index:0;
+  }
+  .step:first-child .line{display:none;}
+  .step.done .line, .step.current .line{background:var(--gold-soft);}
+  .step .dot{
+    width:24px; height:24px; border-radius:50%; background:var(--surface-2); border:2px solid var(--border);
+    display:flex; align-items:center; justify-content:center; z-index:1; margin-bottom:10px;
+  }
+  .step.done .dot{background:var(--gold-soft); border-color:var(--gold-bright);}
+  .step.current .dot{
+    background:var(--gold); border-color:var(--gold);
+    box-shadow:0 0 0 4px rgba(169,130,30,0.15);
+  }
+  .step .dot svg{width:12px; height:12px;}
+  .step .lbl{font-size:11px; text-align:center; color:var(--text-faint); line-height:1.3; padding:0 4px;}
+  .step.done .lbl, .step.current .lbl{color:var(--text-muted);}
+  .step.current .lbl{color:var(--gold); font-weight:600;}
+  .stepper-note{
+    margin-top:16px; font-size:12.5px; color:var(--text-muted); background:var(--surface-2);
+    border:1px solid var(--border); border-radius:8px; padding:11px 14px;
+  }
+  .stepper-note b{color:var(--gold);}
+
+  /* EMI calculator */
+  .calc-grid{display:grid; grid-template-columns:1fr 1fr; gap:24px;}
+  .calc-input{margin-bottom:16px;}
+  .calc-input .row-between{display:flex; justify-content:space-between; margin-bottom:8px;}
+  .calc-input label{font-size:12.5px; color:var(--text-muted); font-weight:500;}
+  .calc-input .value{font-family:var(--mono); font-size:13px; color:var(--gold);}
+  input[type=range]{
+    -webkit-appearance:none; width:100%; height:4px; background:var(--surface-3); border-radius:4px; outline:none;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none; width:16px; height:16px; border-radius:50%;
+    background:var(--gold-bright); border:2px solid #fff; cursor:pointer;
+    box-shadow:0 0 0 3px rgba(169,130,30,0.18);
+  }
+  .calc-result{display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;}
+  .donut{
+    width:150px; height:150px; border-radius:50%; position:relative; margin-bottom:16px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .donut::before{
+    content:''; position:absolute; inset:16px; background:var(--surface); border-radius:50%;
+  }
+  .donut-center{position:relative; z-index:1;}
+  .donut-center .emi-val{font-family:var(--mono); font-size:19px; color:var(--gold); font-weight:600;}
+  .donut-center .emi-lbl{font-size:10px; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.06em; margin-top:2px;}
+  .legend{display:flex; gap:18px; font-size:12px; color:var(--text-muted);}
+  .legend span{display:flex; align-items:center; gap:6px;}
+  .legend i{width:9px; height:9px; border-radius:2px; display:inline-block;}
+
+  table{width:100%; border-collapse:collapse; margin-top:4px;}
+  th{
+    text-align:left; font-size:10.5px; text-transform:uppercase; letter-spacing:0.05em; color:var(--text-faint);
+    padding:8px 10px; border-bottom:1px solid var(--border); font-weight:600;
+  }
+  td{
+    font-size:13px; padding:11px 10px; border-bottom:1px solid var(--border); color:var(--text-muted); font-family:var(--mono);
+  }
+  tr:last-child td{border-bottom:none;}
+  tr.rowlink:hover{background:var(--surface-2);}
+  .view-all{display:block; text-align:center; font-size:12.5px; color:var(--gold); margin-top:12px; font-weight:500;}
+
+  .pill{padding:3px 9px; border-radius:20px; font-size:11px; font-family:var(--body); font-weight:600;}
+  .pill.success{background:var(--success-soft); color:var(--success);}
+  .pill.danger{background:var(--danger-soft); color:var(--danger);}
+  .pill.gold{background:var(--gold-soft); color:var(--gold);}
+  .pill.muted{background:var(--surface-3); color:var(--text-muted);}
+
+  /* right column */
+  .loan-summary .id{font-family:var(--mono); font-size:11.5px; color:var(--text-faint); margin-bottom:4px;}
+  .loan-summary .gold-desc{font-size:12.5px; color:var(--text-muted); margin-bottom:18px;}
+  .balance-val{font-family:var(--mono); font-size:30px; color:var(--gold); font-weight:600; margin-bottom:2px;}
+  .balance-lbl{font-size:11.5px; color:var(--text-faint); margin-bottom:16px;}
+  .progress-track{height:6px; background:var(--surface-2); border-radius:6px; overflow:hidden; margin-bottom:8px;}
+  .progress-fill{height:100%; background:linear-gradient(90deg,var(--gold-soft),var(--gold-bright)); width:38%; border-radius:6px;}
+  .progress-labels{display:flex; justify-content:space-between; font-size:11px; color:var(--text-faint); margin-bottom:20px;}
+  .due-row{display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-top:1px solid var(--border); font-size:13px;}
+  .due-row span:first-child{color:var(--text-faint);}
+  .btn-pay{width:100%; margin-top:16px;}
+
+  .seal-badge{
+    display:flex; align-items:center; gap:12px; background:var(--surface-2); border:1px dashed var(--gold-soft);
+    border-radius:10px; padding:14px 16px; margin-top:6px;
+  }
+  .seal-badge .txt b{display:block; font-size:12.5px; color:var(--gold);}
+  .seal-badge .txt span{font-size:11px; color:var(--text-faint);}
+
+  .activity-item{display:flex; gap:10px; padding:11px 0; border-bottom:1px solid var(--border);}
+  .activity-item:last-child{border-bottom:none;}
+  .activity-item .adot{width:8px; height:8px; border-radius:50%; margin-top:5px; flex-shrink:0;}
+  .activity-item .atxt{font-size:12.5px; color:var(--text-muted); line-height:1.5;}
+  .activity-item .atime{font-size:10.5px; color:var(--text-faint); margin-top:2px;}
+
+  /* filter tabs */
+  .tabs{display:flex; gap:8px; margin-bottom:18px; flex-wrap:wrap;}
+  .tab{padding:7px 14px; border-radius:20px; font-size:12.5px; font-weight:600; color:var(--text-muted); background:var(--surface-2); border:1px solid var(--border); cursor:pointer;}
+  .tab.active{background:var(--gold); color:#FFFBF0; border-color:var(--gold);}
+
+  /* report / settings grid */
+  .report-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+  .report-card{background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:20px; cursor:pointer; transition:border-color .15s ease, transform .1s ease;}
+  .report-card:hover{border-color:var(--gold-bright); transform:translateY(-2px);}
+  .report-card .ricon{width:36px; height:36px; border-radius:9px; background:var(--gold-soft); display:flex; align-items:center; justify-content:center; margin-bottom:14px;}
+  .report-card h4{font-size:14px; font-weight:600; margin-bottom:5px;}
+  .report-card p{font-size:12px; color:var(--text-faint); line-height:1.5;}
+
+  .settings-row{display:flex; justify-content:space-between; align-items:center; padding:16px 0; border-bottom:1px solid var(--border);}
+  .settings-row:last-child{border-bottom:none;}
+  .settings-row .st-txt b{display:block; font-size:13.5px; font-weight:600; margin-bottom:3px;}
+  .settings-row .st-txt span{font-size:12px; color:var(--text-faint);}
+  .toggle{width:40px; height:22px; background:var(--surface-3); border-radius:20px; position:relative; cursor:pointer; flex-shrink:0;}
+  .toggle.on{background:var(--gold-bright);}
+  .toggle::after{content:''; position:absolute; top:2px; left:2px; width:18px; height:18px; background:#fff; border-radius:50%; transition:left .15s ease; box-shadow:0 1px 3px rgba(0,0,0,0.2);}
+  .toggle.on::after{left:20px;}
+  .settings-input{background:var(--surface-2); border:1px solid var(--border); border-radius:7px; padding:8px 12px; font-size:13px; width:120px; text-align:right; font-family:var(--mono); color:var(--text);}
+
+  @media (max-width: 980px){
+    .shell{grid-template-columns:1fr;}
+    .sidebar{display:none;}
+    .kpi-row{grid-template-columns:repeat(2,1fr);}
+    .grid-2{grid-template-columns:1fr;}
+    .calc-grid{grid-template-columns:1fr;}
+    .report-grid{grid-template-columns:1fr 1fr;}
+  }
+/* modal overlay & staff */
+.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(20,18,14,0.65);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:999;padding:20px;}
+.modal-content{background:var(--surface);border:1px solid var(--border);padding:24px;border-radius:14px;width:100%;max-width:440px;box-shadow:0 20px 40px -10px rgba(0,0,0,0.3);}
+.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;}
+.modal-header h3{font-family:var(--display);font-size:20px;color:var(--text);margin:0;}
+.modal-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--text-faint);line-height:1;}
+.staff-avatar{width:32px;height:32px;border-radius:50%;background:var(--gold-soft);color:var(--gold);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0;}
+.action-btn{padding:5px 10px;border-radius:6px;border:1px solid var(--border);background:var(--surface);font-size:12px;font-weight:600;color:var(--text-muted);cursor:pointer;transition:all .15s ease;}
+.action-btn:hover{border-color:var(--gold);color:var(--gold);}
+.action-btn.del:hover{border-color:var(--danger);color:var(--danger);}
+</style>
+</head>
+<body>
+
+<!-- ============ LOGIN PAGE ============ -->
+<div id="page-login">
+  <div class="login-brand">
+    <div>
+      <div class="brand-mark">
+        <svg width="26" height="26" viewBox="0 0 26 26"><circle cx="13" cy="13" r="12" stroke="#A9821E" stroke-width="1.4" fill="none"/><circle cx="13" cy="13" r="6.5" stroke="#A9821E" stroke-width="1.2" fill="none"/></svg>
+        <span>SUVARNA</span>
+      </div>
+      <h1>Every ounce, <em>verified</em>. Every loan, on record.</h1>
+      <p class="sub">The branch operating system for gold, FD, and property-backed lending — built for accurate valuation, controlled approvals, and a complete audit trail on every transaction.</p>
+    </div>
+
+    <div style="position:relative; z-index:1;">
+      <div class="brand-stats">
+        <div><b>212</b><span>Branches live</span></div>
+        <div><b>₹48.6 Cr</b><span>Gold under custody</span></div>
+        <div><b>99.98%</b><span>Valuation accuracy</span></div>
+      </div>
+    </div>
+
+    <div class="seal-wrap">
+      <svg width="220" height="220" viewBox="0 0 220 220">
+        <circle cx="110" cy="110" r="100" fill="none" stroke="#D9C68A" stroke-width="1"/>
+        <circle cx="110" cy="110" r="86" fill="none" stroke="#D9C68A" stroke-width="1"/>
+        <circle cx="110" cy="110" r="50" fill="none" stroke="#A9821E" stroke-width="1.2"/>
+        <path id="sealcircle" d="M 110 24 A 86 86 0 1 1 109.9 24" fill="none"/>
+        <text font-family="IBM Plex Mono" font-size="9" fill="#B8A868" letter-spacing="3">
+          <textPath href="#sealcircle" startOffset="2%">ASSAYED · CERTIFIED · PLEDGED · SUVARNA BANK · ASSAYED · CERTIFIED · PLEDGED ·</textPath>
+        </text>
+        <circle cx="110" cy="110" r="3" fill="#A9821E"/>
+      </svg>
+    </div>
+  </div>
+
+  <div class="login-form-panel">
+    <div class="login-card">
+      <div class="eyebrow">Branch Access</div>
+      <h2>Sign in to your branch</h2>
+      <p class="hint">Enter your staff credentials to continue.</p>
+
+      <div class="field">
+        <label>Branch</label>
+        <select>
+          <option>Mohali — Phase 7 Branch</option>
+          <option>Chandigarh — Sector 17</option>
+          <option>Ludhiana — Model Town</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Staff ID or Email</label>
+        <input type="text" placeholder="e.g. SVB-2291 or name@suvarna.bank">
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" placeholder="••••••••••">
+      </div>
+      <div class="field-row">
+        <label><input type="checkbox" style="width:auto;">Keep me signed in</label>
+        <a href="#">Forgot password?</a>
+      </div>
+
+      <button class="btn-primary" onclick="showDashboard()">Sign in</button>
+
+      <div class="mfa-note">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6C7266" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+        <span>Two-factor authentication is required at login. You'll be asked for a 6-digit code from your authenticator app.</span>
+      </div>
+
+      <a class="demo-link" href="#" onclick="showDashboard(); return false;">Skip sign-in — <b>view live dashboard demo →</b></a>
+    </div>
+  </div>
+</div>
+
+<!-- ============ DASHBOARD SHELL ============ -->
+<div id="page-dashboard">
+  <div class="topbar">
+    <div class="topbar-left">
+      <svg width="20" height="20" viewBox="0 0 26 26"><circle cx="13" cy="13" r="12" stroke="#A9821E" stroke-width="1.4" fill="none"/><circle cx="13" cy="13" r="6.5" stroke="#A9821E" stroke-width="1.2" fill="none"/></svg>
+      <span class="word">Suvarna</span>
+    </div>
+    <div class="search">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9A9C8F" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      Search customer, loan ID, gold voucher…
+    </div>
+    <div class="topbar-right">
+      <span class="branch-badge">Mohali · Phase 7</span>
+      <div class="bell"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6C7266" stroke-width="2"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21a2 2 0 0 0 4 0"/></svg><span class="dot"></span></div>
+      <div class="avatar">AM</div>
+      <a class="logout-link" href="#" onclick="showLogin(); return false;">Log out</a>
+    </div>
+  </div>
+
+  <div class="shell">
+    <div class="sidebar">
+      <div class="nav-item active" data-page="dashboard" onclick="showPage('dashboard', this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg>Dashboard</div>
+      <div class="nav-item" data-page="customers" onclick="showPage('customers', this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>Customers</div>
+      <div class="nav-item" data-page="goldloans" onclick="showPage('goldloans', this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.2"/></svg>Gold Loans</div>
+      <div class="nav-item" data-page="fdbacked" onclick="showPage('fdbacked', this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg>FD-Backed</div>
+      <div class="nav-item" data-page="lap" onclick="showPage('lap', this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M5 21V9l7-6 7 6v12"/><path d="M9 21v-6h6v6"/></svg>LAP</div>
+      <div class="nav-label">Tools</div>
+      <div class="nav-item" data-page="emicalc" onclick="showPage('emicalc', this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 7h8M8 11h8M8 15h4"/></svg>EMI Calculator</div>
+      <div class="nav-item" data-page="repayments" onclick="showPage('repayments', this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"/></svg>Repayments</div>
+      <div class="nav-item" data-page="reports" onclick="showPage('reports', this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg>Reports</div>
+      <div class="nav-item" data-page="staff" onclick="showPage('staff', this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="7" r="4"></circle><path d="M5 21c0-4 4-7 7-7s7 3 7 7"></path></svg>Staff Users</div>
+      <div class="nav-label">System</div>
+      <div class="nav-item" data-page="settings" onclick="showPage('settings', this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>Settings</div>
+    </div>
+
+    <div class="main">
+
+      <!-- ===== DASHBOARD ===== -->
+      <div class="page-section active" id="section-dashboard">
+        <div class="page-head">
+          <div>
+            <h1>Good afternoon, Abhishek</h1>
+            <p>Tuesday, 25 August 2026 · Mohali Phase 7 Branch</p>
+          </div>
+          <div class="seal-badge" style="margin-top:0;">
+            <svg width="30" height="30" viewBox="0 0 26 26"><circle cx="13" cy="13" r="12" stroke="#A9821E" stroke-width="1.3" fill="none"/><circle cx="13" cy="13" r="6" stroke="#A9821E" stroke-width="1" fill="none"/></svg>
+            <div class="txt"><b>Branch in good standing</b><span>Last audit: 12 Aug 2026 — no exceptions</span></div>
+          </div>
+        </div>
+
+        <div class="kpi-row">
+          <div class="kpi-card"><div class="label">Disbursed Today</div><div class="val gold">₹9.4L</div><div class="delta">across 6 loans</div></div>
+          <div class="kpi-card"><div class="label">Pending Approvals</div><div class="val">14</div><div class="delta">3 awaiting valuation sign-off</div></div>
+          <div class="kpi-card"><div class="label">Overdue Accounts</div><div class="val danger">7</div><div class="delta">₹2.1L total overdue</div></div>
+          <div class="kpi-card"><div class="label">Gold Under Custody</div><div class="val success">18.4 kg</div><div class="delta">across 340 active loans</div></div>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <div class="card">
+              <div class="card-head">
+                <h3>Loan Journey — Priya Sharma · GL-88213</h3>
+                <span class="tag">Active</span>
+              </div>
+              <div class="stepper">
+                <div class="step done"><div class="line"></div><div class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="#A9821E" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></div><div class="lbl">Applied</div></div>
+                <div class="step done"><div class="line"></div><div class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="#A9821E" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></div><div class="lbl">KYC Verified</div></div>
+                <div class="step done"><div class="line"></div><div class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="#A9821E" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></div><div class="lbl">Gold Valued</div></div>
+                <div class="step done"><div class="line"></div><div class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="#A9821E" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></div><div class="lbl">Approved</div></div>
+                <div class="step done"><div class="line"></div><div class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="#A9821E" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></div><div class="lbl">Disbursed</div></div>
+                <div class="step current"><div class="line"></div><div class="dot"></div><div class="lbl">EMI Ongoing</div></div>
+                <div class="step"><div class="line"></div><div class="dot"></div><div class="lbl">Foreclosure</div></div>
+                <div class="step"><div class="line"></div><div class="dot"></div><div class="lbl">Gold Released</div></div>
+              </div>
+              <div class="stepper-note">Currently at <b>EMI Ongoing</b> — 5 of 12 instalments paid. Next instalment of <b>₹18,240</b> is due <b>2 Sep 2026</b>.</div>
+            </div>
+
+            <div class="card">
+              <div class="card-head">
+                <h3>EMI Calculator</h3>
+                <span class="tag">Gold Loan</span>
+              </div>
+              <div class="calc-grid">
+                <div>
+                  <div class="calc-input">
+                    <div class="row-between"><label>Loan Amount</label><span class="value" id="amtVal">₹2,00,000</span></div>
+                    <input type="range" id="amtRange" min="20000" max="1000000" step="5000" value="200000" oninput="calcEMI()">
+                  </div>
+                  <div class="calc-input">
+                    <div class="row-between"><label>Tenure</label><span class="value" id="tenVal">12 months</span></div>
+                    <input type="range" id="tenRange" min="3" max="36" step="1" value="12" oninput="calcEMI()">
+                  </div>
+                  <div class="calc-input">
+                    <div class="row-between"><label>Interest Rate (p.a.)</label><span class="value" id="rateVal">10.5%</span></div>
+                    <input type="range" id="rateRange" min="7" max="18" step="0.1" value="10.5" oninput="calcEMI()">
+                  </div>
+                </div>
+                <div class="calc-result">
+                  <div class="donut" id="donut">
+                    <div class="donut-center">
+                      <div class="emi-val" id="emiOut">₹17,580</div>
+                      <div class="emi-lbl">per month</div>
+                    </div>
+                  </div>
+                  <div class="legend">
+                    <span><i style="background:var(--gold-bright)"></i>Principal <span id="pctPrincipal">91%</span></span>
+                    <span><i style="background:#E3DDCD"></i>Interest <span id="pctInterest">9%</span></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-head">
+                <h3>Repayment Schedule — GL-88213</h3>
+                <span class="tag">5 / 12 paid</span>
+              </div>
+              <table>
+                <thead><tr><th>Month</th><th>EMI</th><th>Principal</th><th>Interest</th><th>Balance</th><th>Status</th></tr></thead>
+                <tbody>
+                  <tr><td>Apr 2026</td><td>₹18,240</td><td>₹16,490</td><td>₹1,750</td><td>₹1,83,510</td><td><span class="pill success">Paid</span></td></tr>
+                  <tr><td>May 2026</td><td>₹18,240</td><td>₹16,635</td><td>₹1,605</td><td>₹1,66,875</td><td><span class="pill success">Paid</span></td></tr>
+                  <tr><td>Jun 2026</td><td>₹18,240</td><td>₹16,781</td><td>₹1,459</td><td>₹1,50,094</td><td><span class="pill success">Paid</span></td></tr>
+                  <tr><td>Jul 2026</td><td>₹18,240</td><td>₹16,928</td><td>₹1,312</td><td>₹1,33,166</td><td><span class="pill success">Paid</span></td></tr>
+                  <tr><td>Aug 2026</td><td>₹18,240</td><td>₹17,076</td><td>₹1,164</td><td>₹1,16,090</td><td><span class="pill success">Paid</span></td></tr>
+                  <tr><td>Sep 2026</td><td>₹18,240</td><td>₹17,226</td><td>₹1,014</td><td>₹98,864</td><td><span class="pill gold">Due 2 Sep</span></td></tr>
+                </tbody>
+              </table>
+              <a class="view-all" href="#" onclick="showPage('repayments', document.querySelector('[data-page=repayments]')); return false;">View full 12-month schedule →</a>
+            </div>
+          </div>
+
+          <div>
+            <div class="card loan-summary">
+              <div class="card-head"><h3>Your Active Loan</h3></div>
+              <div class="id">LOAN ID · GL-88213</div>
+              <div class="gold-desc">22K gold, 48.2g net weight, pledged 14 Apr 2026</div>
+
+              <div class="balance-val">₹98,864</div>
+              <div class="balance-lbl">Outstanding balance</div>
+
+              <div class="progress-track"><div class="progress-fill"></div></div>
+              <div class="progress-labels"><span>₹1,01,136 paid</span><span>38% complete</span></div>
+
+              <div class="due-row"><span>Next EMI</span><span style="color:var(--gold); font-family:var(--mono)">₹18,240</span></div>
+              <div class="due-row"><span>Due date</span><span style="font-family:var(--mono)">2 Sep 2026</span></div>
+              <div class="due-row"><span>Instalments left</span><span style="font-family:var(--mono)">7 of 12</span></div>
+
+              <button class="btn-primary btn-pay">Pay Now</button>
+            </div>
+
+            <div class="card">
+              <div class="seal-badge">
+                <svg width="34" height="34" viewBox="0 0 26 26"><circle cx="13" cy="13" r="12" stroke="#A9821E" stroke-width="1.3" fill="none"/><circle cx="13" cy="13" r="6" stroke="#A9821E" stroke-width="1" fill="none"/><circle cx="13" cy="13" r="2" fill="#A9821E"/></svg>
+                <div class="txt"><b>Assayed & Certified</b><span>Gold verified by SVB-Assayer-014 on 14 Apr 2026</span></div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-head"><h3>Recent Activity</h3></div>
+              <div class="activity-item"><div class="adot" style="background:var(--success)"></div><div><div class="atxt">EMI payment of ₹18,240 received for GL-88213</div><div class="atime">Today, 5 Aug · Auto-debit</div></div></div>
+              <div class="activity-item"><div class="adot" style="background:var(--info)"></div><div><div class="atxt">Gold valuation report generated for new applicant Meera Kaur</div><div class="atime">Yesterday, 2:14 PM</div></div></div>
+              <div class="activity-item"><div class="adot" style="background:var(--gold-bright)"></div><div><div class="atxt">KYC documents approved for customer ID CU-40217</div><div class="atime">Yesterday, 11:02 AM</div></div></div>
+              <div class="activity-item"><div class="adot" style="background:var(--danger)"></div><div><div class="atxt">Loan GL-79034 flagged overdue — 12 days past due</div><div class="atime">2 days ago</div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== CUSTOMERS ===== -->
+      <div class="page-section" id="section-customers">
+        <div class="page-head"><div><h1>Customers</h1><p>340 customers linked to this branch</p></div></div>
+        <div class="card">
+          <table>
+            <thead><tr><th>Customer</th><th>Customer ID</th><th>Phone</th><th>Active Loans</th><th>KYC Status</th></tr></thead>
+            <tbody>
+              <tr class="rowlink"><td style="color:var(--text); font-family:var(--body); font-weight:500;">Priya Sharma</td><td>CU-40188</td><td>+91 98150 22341</td><td>1 · GL-88213</td><td><span class="pill success">Verified</span></td></tr>
+              <tr class="rowlink"><td style="color:var(--text); font-family:var(--body); font-weight:500;">Meera Kaur</td><td>CU-40217</td><td>+91 98721 45590</td><td>1 · GL-88240</td><td><span class="pill success">Verified</span></td></tr>
+              <tr class="rowlink"><td style="color:var(--text); font-family:var(--body); font-weight:500;">Ranjit Singh</td><td>CU-40203</td><td>+91 99145 88231</td><td>2 · GL, FD</td><td><span class="pill gold">Pending</span></td></tr>
+              <tr class="rowlink"><td style="color:var(--text); font-family:var(--body); font-weight:500;">Anjali Verma</td><td>CU-39982</td><td>+91 97290 11764</td><td>1 · LAP-2031</td><td><span class="pill success">Verified</span></td></tr>
+              <tr class="rowlink"><td style="color:var(--text); font-family:var(--body); font-weight:500;">Suresh Kumar</td><td>CU-38810</td><td>+91 98884 33210</td><td>1 · GL-79034</td><td><span class="pill danger">Overdue</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== GOLD LOANS ===== -->
+      <div class="page-section" id="section-goldloans">
+        <div class="page-head"><div><h1>Gold Loans</h1><p>340 active gold loan accounts</p></div></div>
+        <div class="card">
+          <table>
+            <thead><tr><th>Loan ID</th><th>Customer</th><th>Net Weight</th><th>Purity</th><th>Loan Amount</th><th>Outstanding</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr class="rowlink"><td>GL-88213</td><td>Priya Sharma</td><td>48.2g</td><td>22K</td><td>₹2,00,000</td><td>₹98,864</td><td><span class="pill success">Active</span></td></tr>
+              <tr class="rowlink"><td>GL-88240</td><td>Meera Kaur</td><td>32.1g</td><td>22K</td><td>₹1,30,000</td><td>₹1,30,000</td><td><span class="pill gold">Disbursement Pending</span></td></tr>
+              <tr class="rowlink"><td>GL-79034</td><td>Suresh Kumar</td><td>60.0g</td><td>18K</td><td>₹1,75,000</td><td>₹1,42,300</td><td><span class="pill danger">Overdue</span></td></tr>
+              <tr class="rowlink"><td>GL-77102</td><td>Harpreet Bhatia</td><td>25.4g</td><td>22K</td><td>₹95,000</td><td>0</td><td><span class="pill muted">Closed</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== FD-BACKED ===== -->
+      <div class="page-section" id="section-fdbacked">
+        <div class="page-head"><div><h1>FD-Backed Loans</h1><p>28 active loans against fixed deposits</p></div></div>
+        <div class="card">
+          <table>
+            <thead><tr><th>Loan ID</th><th>Customer</th><th>FD Number</th><th>FD Amount</th><th>Loan Amount</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr class="rowlink"><td>FD-5512</td><td>Ranjit Singh</td><td>FDN-88213</td><td>₹5,00,000</td><td>₹4,00,000</td><td><span class="pill success">Active</span></td></tr>
+              <tr class="rowlink"><td>FD-5498</td><td>Kavita Rao</td><td>FDN-77210</td><td>₹2,00,000</td><td>₹1,60,000</td><td><span class="pill gold">Verification Pending</span></td></tr>
+              <tr class="rowlink"><td>FD-5471</td><td>Deepak Malhotra</td><td>FDN-70091</td><td>₹3,50,000</td><td>0</td><td><span class="pill muted">Closed</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== LAP ===== -->
+      <div class="page-section" id="section-lap">
+        <div class="page-head"><div><h1>Loan Against Property</h1><p>9 active property-backed loans</p></div></div>
+        <div class="card">
+          <table>
+            <thead><tr><th>Loan ID</th><th>Customer</th><th>Property Type</th><th>Property Value</th><th>Loan Amount</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr class="rowlink"><td>LAP-2031</td><td>Anjali Verma</td><td>Residential Flat</td><td>₹65,00,000</td><td>₹30,00,000</td><td><span class="pill gold">Legal Verification</span></td></tr>
+              <tr class="rowlink"><td>LAP-1988</td><td>Vikram Chauhan</td><td>Commercial Shop</td><td>₹40,00,000</td><td>₹22,00,000</td><td><span class="pill success">Active</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== EMI CALCULATOR (standalone) ===== -->
+      <div class="page-section" id="section-emicalc">
+        <div class="page-head"><div><h1>EMI Calculator</h1><p>Estimate EMI for any loan product before approval</p></div></div>
+        <div class="card">
+          <div class="calc-grid">
+            <div>
+              <div class="calc-input">
+                <div class="row-between"><label>Loan Amount</label><span class="value" id="amtVal2">₹2,00,000</span></div>
+                <input type="range" id="amtRange2" min="20000" max="1000000" step="5000" value="200000" oninput="calcEMI2()">
+              </div>
+              <div class="calc-input">
+                <div class="row-between"><label>Tenure</label><span class="value" id="tenVal2">12 months</span></div>
+                <input type="range" id="tenRange2" min="3" max="36" step="1" value="12" oninput="calcEMI2()">
+              </div>
+              <div class="calc-input">
+                <div class="row-between"><label>Interest Rate (p.a.)</label><span class="value" id="rateVal2">10.5%</span></div>
+                <input type="range" id="rateRange2" min="7" max="18" step="0.1" value="10.5" oninput="calcEMI2()">
+              </div>
+              <div style="display:flex; gap:20px; margin-top:24px;">
+                <div><div style="font-size:11px; color:var(--text-faint); text-transform:uppercase;">Total Interest</div><div style="font-family:var(--mono); font-size:16px; color:var(--text); margin-top:4px;" id="totInterest2">₹10,960</div></div>
+                <div><div style="font-size:11px; color:var(--text-faint); text-transform:uppercase;">Total Payment</div><div style="font-family:var(--mono); font-size:16px; color:var(--text); margin-top:4px;" id="totPay2">₹2,10,960</div></div>
+              </div>
+            </div>
+            <div class="calc-result">
+              <div class="donut" id="donut2">
+                <div class="donut-center">
+                  <div class="emi-val" id="emiOut2">₹17,580</div>
+                  <div class="emi-lbl">per month</div>
+                </div>
+              </div>
+              <div class="legend">
+                <span><i style="background:var(--gold-bright)"></i>Principal <span id="pctPrincipal2">91%</span></span>
+                <span><i style="background:#E3DDCD"></i>Interest <span id="pctInterest2">9%</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== REPAYMENTS ===== -->
+      <div class="page-section" id="section-repayments">
+        <div class="page-head"><div><h1>Repayments</h1><p>Track EMI collections across all loan accounts</p></div></div>
+        <div class="tabs">
+          <div class="tab active" onclick="filterRepay('all', this)">All</div>
+          <div class="tab" onclick="filterRepay('due', this)">Due Soon</div>
+          <div class="tab" onclick="filterRepay('overdue', this)">Overdue</div>
+          <div class="tab" onclick="filterRepay('paid', this)">Paid</div>
+        </div>
+        <div class="card">
+          <table>
+            <thead><tr><th>Loan ID</th><th>Customer</th><th>EMI Amount</th><th>Due Date</th><th>Status</th></tr></thead>
+            <tbody id="repayBody">
+              <tr class="repay-row" data-status="due"><td>GL-88213</td><td>Priya Sharma</td><td>₹18,240</td><td>2 Sep 2026</td><td><span class="pill gold">Due Soon</span></td></tr>
+              <tr class="repay-row" data-status="overdue"><td>GL-79034</td><td>Suresh Kumar</td><td>₹14,600</td><td>13 Aug 2026</td><td><span class="pill danger">Overdue · 12 days</span></td></tr>
+              <tr class="repay-row" data-status="paid"><td>GL-88240</td><td>Meera Kaur</td><td>₹11,200</td><td>28 Aug 2026</td><td><span class="pill success">Paid</span></td></tr>
+              <tr class="repay-row" data-status="due"><td>FD-5512</td><td>Ranjit Singh</td><td>₹34,500</td><td>5 Sep 2026</td><td><span class="pill gold">Due Soon</span></td></tr>
+              <tr class="repay-row" data-status="overdue"><td>LAP-2031</td><td>Anjali Verma</td><td>₹52,000</td><td>18 Aug 2026</td><td><span class="pill danger">Overdue · 7 days</span></td></tr>
+              <tr class="repay-row" data-status="paid"><td>GL-77102</td><td>Harpreet Bhatia</td><td>₹9,800</td><td>20 Aug 2026</td><td><span class="pill success">Paid</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== REPORTS ===== -->
+      <div class="page-section" id="section-reports">
+        <div class="page-head"><div><h1>Reports & MIS</h1><p>Generate and download branch, management, and audit reports</p></div></div>
+        <div class="report-grid">
+          <div class="report-card"><div class="ricon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#A9821E" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg></div><h4>Daily Loan Report</h4><p>Applications, approvals and disbursals for today</p></div>
+          <div class="report-card"><div class="ricon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#A9821E" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg></div><h4>Gold Loan Report</h4><p>Portfolio breakdown by weight, purity and LTV</p></div>
+          <div class="report-card"><div class="ricon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#A9821E" stroke-width="2"><path d="M12 2v20M2 12h20"/></svg></div><h4>Collection Report</h4><p>EMI collections vs targets, by branch and staff</p></div>
+          <div class="report-card"><div class="ricon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#A9821E" stroke-width="2"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/></svg></div><h4>Overdue Report</h4><p>All overdue accounts with days-past-due ageing</p></div>
+          <div class="report-card"><div class="ricon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#A9821E" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg></div><h4>LTV Report</h4><p>Loan-to-value distribution across active accounts</p></div>
+          <div class="report-card"><div class="ricon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#A9821E" stroke-width="2"><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/><circle cx="12" cy="8" r="4"/></svg></div><h4>User Activity Report</h4><p>Staff logins, approvals and data changes</p></div>
+        </div>
+      </div>
+      <!-- ===== STAFF USERS ===== -->
+      <div class="page-section" id="section-staff">
+        <div class="page-head">
+          <div>
+            <h1>Office &amp; Staff Users</h1>
+            <p>Manage branch officers, gold valuers, checkers, and access roles</p>
+          </div>
+          <button class="btn-primary" onclick="openStaffModal()" style="width:auto; display:inline-flex; align-items:center; gap:8px; padding:10px 18px; font-size:13.5px; margin:0; flex-shrink:0;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            Add New Staff
+          </button>
+        </div>
+
+        <div class="kpi-row">
+          <div class="kpi-card"><div class="label">Total Branch Staff</div><div class="val" id="kpiTotalStaff">5</div><div class="delta">Across 4 roles</div></div>
+          <div class="kpi-card"><div class="label">Active Today</div><div class="val success" id="kpiActiveStaff">5</div><div class="delta">Signed in &amp; operational</div></div>
+          <div class="kpi-card"><div class="label">Makers / Checkers</div><div class="val gold">2 / 2</div><div class="delta">Dual authorization active</div></div>
+          <div class="kpi-card"><div class="label">Assayer &amp; Valuers</div><div class="val info">1</div><div class="delta">Certified gold appraiser</div></div>
+        </div>
+
+        <div class="tabs">
+          <div class="tab active" onclick="filterStaff('all', this)">All Staff (<span id="countAll">5</span>)</div>
+          <div class="tab" onclick="filterStaff('Loan Officer', this)">Loan Officers</div>
+          <div class="tab" onclick="filterStaff('Valuer', this)">Gold Valuers</div>
+          <div class="tab" onclick="filterStaff('Manager', this)">Managers</div>
+          <div class="tab" onclick="filterStaff('Cashier', this)">Operations &amp; Cashier</div>
+        </div>
+
+        <div class="card">
+          <div class="card-head" style="margin-bottom:12px;">
+            <h3>Staff Directory &amp; Role Access</h3>
+            <div style="font-size:12px;color:var(--text-faint);">Branch: <b>Mohali — Phase 7</b></div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Staff Member</th>
+                <th>Staff ID</th>
+                <th>Role &amp; Designation</th>
+                <th>Branch</th>
+                <th>Status</th>
+                <th style="text-align:right;">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="staffBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ===== SETTINGS ===== -->
+      <div class="page-section" id="section-settings">
+        <div class="page-head"><div><h1>Settings</h1><p>Branch and product configuration</p></div></div>
+        <div class="card">
+          <div class="card-head"><h3>Loan Product Defaults</h3></div>
+          <div class="settings-row"><div class="st-txt"><b>Gold Loan interest rate (p.a.)</b><span>Applied to new gold loan applications</span></div><input class="settings-input" value="10.5%"></div>
+          <div class="settings-row"><div class="st-txt"><b>Maximum LTV</b><span>As per applicable RBI gold loan guideline</span></div><input class="settings-input" value="75%"></div>
+          <div class="settings-row"><div class="st-txt"><b>Processing fee</b><span>One-time fee charged at disbursement</span></div><input class="settings-input" value="1.0%"></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3>Security</h3></div>
+          <div class="settings-row"><div class="st-txt"><b>Require MFA at login</b><span>All branch staff must verify with an authenticator app</span></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+          <div class="settings-row"><div class="st-txt"><b>Maker-checker for approvals</b><span>A second authorised user must approve sensitive actions</span></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+          <div class="settings-row"><div class="st-txt"><b>Auto session timeout</b><span>Sign staff out after 20 minutes of inactivity</span></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3>Notifications</h3></div>
+          <div class="settings-row"><div class="st-txt"><b>SMS reminders for EMI due</b><span>Sent 3 days before the due date</span></div><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+          <div class="settings-row"><div class="st-txt"><b>Email statements</b><span>Monthly account statement to registered email</span></div><div class="toggle" onclick="this.classList.toggle('on')"></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+function showDashboard(){
+  document.getElementById('page-login').style.display = 'none';
+  document.getElementById('page-dashboard').style.display = 'block';
+  calcEMI();
+}
+function showLogin(){
+  document.getElementById('page-dashboard').style.display = 'none';
+  document.getElementById('page-login').style.display = 'grid';
+}
+
+function showPage(name, el){
+  document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+  document.getElementById('section-' + name).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  if(el) el.classList.add('active');
+  if(name === 'emicalc') calcEMI2();
+  window.scrollTo(0,0);
+}
+
+function filterRepay(status, el){
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.repay-row').forEach(r => {
+    r.style.display = (status === 'all' || r.dataset.status === status) ? '' : 'none';
+  });
+}
+
+function computeEMI(amt, ten, rate){
+  const r = (rate/12)/100;
+  const emi = (amt * r * Math.pow(1+r, ten)) / (Math.pow(1+r, ten) - 1);
+  const totalPay = emi * ten;
+  const totalInterest = totalPay - amt;
+  return {emi, totalPay, totalInterest};
+}
+
+function calcEMI(){
+  const amt = parseFloat(document.getElementById('amtRange').value);
+  const ten = parseFloat(document.getElementById('tenRange').value);
+  const rate = parseFloat(document.getElementById('rateRange').value);
+  document.getElementById('amtVal').textContent = '₹' + amt.toLocaleString('en-IN');
+  document.getElementById('tenVal').textContent = ten + ' months';
+  document.getElementById('rateVal').textContent = rate.toFixed(1) + '%';
+  const {emi, totalPay, totalInterest} = computeEMI(amt, ten, rate);
+  document.getElementById('emiOut').textContent = '₹' + Math.round(emi).toLocaleString('en-IN');
+  const pInterest = Math.max(2, Math.min(60, (totalInterest/totalPay)*100));
+  const pPrincipal = 100 - pInterest;
+  document.getElementById('pctPrincipal').textContent = Math.round(pPrincipal) + '%';
+  document.getElementById('pctInterest').textContent = Math.round(pInterest) + '%';
+  document.getElementById('donut').style.background = `conic-gradient(#C9A227 0% ${pPrincipal}%, #E3DDCD ${pPrincipal}% 100%)`;
+}
+
+function calcEMI2(){
+  const amt = parseFloat(document.getElementById('amtRange2').value);
+  const ten = parseFloat(document.getElementById('tenRange2').value);
+  const rate = parseFloat(document.getElementById('rateRange2').value);
+  document.getElementById('amtVal2').textContent = '₹' + amt.toLocaleString('en-IN');
+  document.getElementById('tenVal2').textContent = ten + ' months';
+  document.getElementById('rateVal2').textContent = rate.toFixed(1) + '%';
+  const {emi, totalPay, totalInterest} = computeEMI(amt, ten, rate);
+  document.getElementById('emiOut2').textContent = '₹' + Math.round(emi).toLocaleString('en-IN');
+  document.getElementById('totInterest2').textContent = '₹' + Math.round(totalInterest).toLocaleString('en-IN');
+  document.getElementById('totPay2').textContent = '₹' + Math.round(totalPay).toLocaleString('en-IN');
+  const pInterest = Math.max(2, Math.min(60, (totalInterest/totalPay)*100));
+  const pPrincipal = 100 - pInterest;
+  document.getElementById('pctPrincipal2').textContent = Math.round(pPrincipal) + '%';
+  document.getElementById('pctInterest2').textContent = Math.round(pInterest) + '%';
+  document.getElementById('donut2').style.background = `conic-gradient(#C9A227 0% ${pPrincipal}%, #E3DDCD ${pPrincipal}% 100%)`;
+}
+
+calcEMI();
+
+/* Staff management */
+const DEFAULT_STAFF = [
+  { id: 'SVB-MGR-101', name: 'Rajesh Khanna', email: 'rajesh.k@suvarna.bank', role: 'Branch Manager', branch: 'Mohali — Phase 7', status: 'Active' },
+  { id: 'SVB-LO-204', name: 'Priya Malhotra', email: 'priya.m@suvarna.bank', role: 'Senior Loan Officer', branch: 'Mohali — Phase 7', status: 'Active' },
+  { id: 'SVB-VAL-014', name: 'Simranjeet Singh', email: 'simran.s@suvarna.bank', role: 'Gold Valuer & Assayer', branch: 'Mohali — Phase 7', status: 'Active' },
+  { id: 'SVB-CHK-308', name: 'Neha Gupta', email: 'neha.g@suvarna.bank', role: 'Verification Officer (Checker)', branch: 'Mohali — Phase 7', status: 'Active' },
+  { id: 'SVB-MKR-412', name: 'Aman Verma', email: 'aman.v@suvarna.bank', role: 'Cashier & Loan Maker', branch: 'Mohali — Phase 7', status: 'Active' }
+];
+
+let staffData = [];
+let currentStaffFilter = 'all';
+
+function loadStaff(){
+  const saved = localStorage.getItem('staffData_v2');
+  if(saved){
+    try { staffData = JSON.parse(saved); } catch(e){ staffData = [...DEFAULT_STAFF]; }
+  } else {
+    staffData = [...DEFAULT_STAFF];
+    saveStaff();
+  }
+}
+
+function saveStaff(){
+  localStorage.setItem('staffData_v2', JSON.stringify(staffData));
+}
+
+function filterStaff(role, el){
+  currentStaffFilter = role;
+  if(el){
+    document.querySelectorAll('#section-staff .tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+  }
+  renderStaff();
+}
+
+function renderStaff(){
+  const tbody = document.getElementById('staffBody');
+  if(!tbody) return;
+  tbody.innerHTML = '';
+  
+  let list = staffData;
+  if(currentStaffFilter !== 'all'){
+    list = staffData.filter(s => s.role.toLowerCase().includes(currentStaffFilter.toLowerCase()));
+  }
+
+  const countAll = document.getElementById('countAll');
+  if(countAll) countAll.textContent = staffData.length;
+  const kpiTotal = document.getElementById('kpiTotalStaff');
+  if(kpiTotal) kpiTotal.textContent = staffData.length;
+  const kpiActive = document.getElementById('kpiActiveStaff');
+  if(kpiActive) kpiActive.textContent = staffData.filter(s => s.status !== 'Inactive').length;
+
+  if(list.length === 0){
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--text-faint);">No staff found in this filter. Click "Add New Staff" to add one.</td></tr>`;
+    return;
+  }
+
+  list.forEach((s, idx) => {
+    const actualIdx = staffData.indexOf(s);
+    const initials = s.name.split(' ').map(n=>n[0]).join('').substring(0,2).toUpperCase();
+    const isOnline = s.status === 'Active';
+    const tr = document.createElement('tr');
+    tr.className = 'rowlink';
+    tr.innerHTML = `
+      <td>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="staff-avatar">${initials}</div>
+          <div>
+            <div style="font-family:var(--body);font-weight:600;color:var(--text);font-size:13.5px;">${s.name}</div>
+            <div style="font-size:11.5px;color:var(--text-faint);">${s.email}</div>
+          </div>
+        </div>
+      </td>
+      <td><span style="font-family:var(--mono);font-size:12px;color:var(--gold);font-weight:600;">${s.id || ('SVB-0' + (actualIdx+1))}</span></td>
+      <td><span class="pill gold">${s.role}</span></td>
+      <td><span style="color:var(--text-muted);font-family:var(--body);font-size:12.5px;">${s.branch || 'Mohali — Phase 7'}</span></td>
+      <td><span class="pill ${isOnline ? 'success' : 'muted'}">${s.status || 'Active'}</span></td>
+      <td style="text-align:right;">
+        <button class="action-btn" onclick="editStaff(${actualIdx})" title="Edit Staff">✏️ Edit</button>
+        <button class="action-btn del" onclick="deleteStaff(${actualIdx})" style="margin-left:4px;" title="Delete Staff">🗑️</button>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function openStaffModal(index = -1){
+  const existing = document.getElementById('staffModal');
+  if(existing) existing.remove();
+
+  const isEdit = index >= 0;
+  const staff = isEdit ? staffData[index] : { name:'', email:'', id:'SVB-STF-' + Math.floor(100+Math.random()*900), role:'Loan Officer', branch:'Mohali — Phase 7', status:'Active' };
+
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+  modal.id = 'staffModal';
+  modal.innerHTML = `
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>${isEdit ? 'Edit Staff User' : 'Add New Staff User'}</h3>
+        <button class="modal-close" onclick="closeStaffModal()">✕</button>
+      </div>
+      <div class="field">
+        <label>Full Name</label>
+        <input type="text" id="staffName" value="${staff.name}" placeholder="e.g. Vikram Batra">
+      </div>
+      <div class="field">
+        <label>Staff ID</label>
+        <input type="text" id="staffId" value="${staff.id}" placeholder="e.g. SVB-2091">
+      </div>
+      <div class="field">
+        <label>Email Address</label>
+        <input type="email" id="staffEmail" value="${staff.email}" placeholder="name@suvarna.bank">
+      </div>
+      <div class="field">
+        <label>Role &amp; Access Level</label>
+        <select id="staffRole">
+          <option ${staff.role==='Branch Manager'?'selected':''}>Branch Manager</option>
+          <option ${staff.role==='Senior Loan Officer'||staff.role==='Loan Officer'?'selected':''}>Loan Officer</option>
+          <option ${staff.role==='Gold Valuer & Assayer'||staff.role==='Valuer'?'selected':''}>Gold Valuer & Assayer</option>
+          <option ${staff.role==='Verification Officer (Checker)'?'selected':''}>Verification Officer (Checker)</option>
+          <option ${staff.role==='Cashier & Loan Maker'?'selected':''}>Cashier & Loan Maker</option>
+        </select>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Branch</label>
+          <select id="staffBranch">
+            <option>Mohali — Phase 7</option>
+            <option>Chandigarh — Sector 17</option>
+            <option>Ludhiana — Model Town</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Status</label>
+          <select id="staffStatus">
+            <option ${staff.status==='Active'?'selected':''}>Active</option>
+            <option ${staff.status==='On Leave'?'selected':''}>On Leave</option>
+            <option ${staff.status==='Inactive'?'selected':''}>Inactive</option>
+          </select>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:20px;">
+        <button class="btn-primary" style="flex:1;" onclick="saveStaffEntry(${index})">${isEdit ? 'Update Staff' : 'Save Staff'}</button>
+        <button class="btn-primary" style="background:var(--surface-3);color:var(--text);border:1px solid var(--border);" onclick="closeStaffModal()">Cancel</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+}
+
+function closeStaffModal(){
+  const m = document.getElementById('staffModal');
+  if(m) m.remove();
+}
+
+function saveStaffEntry(idx){
+  const name = document.getElementById('staffName').value.trim();
+  const email = document.getElementById('staffEmail').value.trim();
+  const id = document.getElementById('staffId').value.trim();
+  const role = document.getElementById('staffRole').value;
+  const branch = document.getElementById('staffBranch').value;
+  const status = document.getElementById('staffStatus').value;
+
+  if(!name || !email){
+    alert('Please enter staff Name and Email.');
+    return;
+  }
+
+  const entry = { id, name, email, role, branch, status };
+  if(idx === -1){
+    staffData.unshift(entry);
+  } else {
+    staffData[idx] = entry;
+  }
+  saveStaff();
+  renderStaff();
+  closeStaffModal();
+}
+
+function editStaff(i){ openStaffModal(i); }
+
+function deleteStaff(i){
+  if(confirm('Are you sure you want to remove staff member "' + staffData[i].name + '"?')){
+    staffData.splice(i, 1);
+    saveStaff();
+    renderStaff();
+  }
+}
+
+loadStaff();
+renderStaff();
+</script>
+
+<script src="demo-nav.js"></script>
+</body>
+</html>
